@@ -114,9 +114,10 @@ export function getFreeGiftState(
 /**
  * Keeps storefront-managed lines in step with the rest of the cart. Runs
  * after every cart mutation:
- * - Free gift (Buy X Get Y): with a fixed gift product it is added once a
- *   qualifying product is in the cart; with a gift collection the customer
- *   picks one (see chooseFreeGift). Either way it goes when the last
+ * - Free gift (Buy X Get Y): added once a qualifying product is in the
+ *   cart. With a fixed gift product that product is added; with a gift
+ *   collection the cheapest one is, and the customer can swap it (see
+ *   chooseFreeGift). Either way it goes when the last
  *   qualifying product goes, and there is never more than one. If the gift
  *   is out of stock nothing is added, and the UI shows a message instead.
  * - Gift wrap: one wrap line while the "Gift wrap" cart attribute is "Yes".
@@ -152,6 +153,20 @@ export async function syncManagedLines(commerce: Commerce, offer: GiftOffer) {
     const kept = cart.lines.find(isFreeGiftLine);
     if (kept && kept.quantity !== 1) {
       cart = (await commerce.cart.updateLines([{id: kept.id, quantity: 1}])) ?? cart;
+    }
+    // Start with the cheapest gift; the customer can swap it in the cart.
+    if (qualifies && !kept) {
+      const [cheapest] = await getGiftOptions(commerce, cart, offer);
+      if (cheapest) {
+        cart =
+          (await commerce.cart.addLines([
+            {
+              merchandiseId: cheapest.variantId,
+              quantity: 1,
+              attributes: [{key: LINE_ATTR.freeGift, value: 'true'}],
+            },
+          ])) ?? cart;
+      }
     }
   }
 

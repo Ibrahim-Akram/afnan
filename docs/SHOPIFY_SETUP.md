@@ -67,15 +67,14 @@ The storefront reads the same offer from the `afnan_settings` entry, so set
 these fields to match the discount whenever you change it (no deploy needed):
 
 - `gift_buy_collection` (Collection): buying from it unlocks the gift.
-- `gift_collection` (Collection): the customer picks one free product from it
-  in the cart.
+- `gift_collection` (Collection): the cheapest product from it is added for
+  free, and the customer can swap it for another in the cart.
 - `gift_product` (Product): set this instead to add one fixed gift
   automatically. It wins over `gift_collection`.
 
 Empty fields fall back to `DEFAULT_GIFT_OFFER` in `app/lib/store-config.ts`.
 
-The storefront (`app/lib/gifting.ts`) shows the gift picker or adds the fixed
-gift, removes it when the last qualifying product goes, keeps it at quantity
+The storefront (`app/lib/gifting.ts`) adds the gift automatically, removes it when the last qualifying product goes, keeps it at quantity
 1, and shows a message when no gift is in stock. The picker only offers gifts
 that cost no more than the cheapest qualifying item in the bag, because
 Shopify's Buy X Get Y makes the cheapest eligible item free. The discount makes
