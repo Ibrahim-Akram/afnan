@@ -1,40 +1,22 @@
 import {createHydrogenContext} from '@shopify/hydrogen';
 import {AppSession} from '~/lib/session';
-import {CART_QUERY_FRAGMENT} from '~/lib/fragments';
-import type {CartApiQueryFragment} from 'storefrontapi.generated';
-
-// Define the additional context object
-const additionalContext = {
-  // Additional context for custom properties, CMS clients, 3P SDKs, etc.
-  // These will be available as both context.propertyName and context.get(propertyContext)
-  // Example of complex objects that could be added:
-  // cms: await createCMSClient(env),
-  // reviews: await createReviewsClient(env),
-} as const;
-
-// Automatically augment HydrogenAdditionalContext with the additional context type
-type AdditionalContextType = typeof additionalContext;
-
-declare global {
-  interface HydrogenAdditionalContext extends AdditionalContextType {}
-
-  // Augment HydrogenCustomCartFragment with the codegen'd cart fragment type so
-  // that context.cart.get() and all cart mutations return the extended cart type.
-  interface HydrogenCustomCartFragment extends CartApiQueryFragment {}
-}
+import {getLocaleFromRequest} from '~/lib/i18n';
+import {
+  CART_QUERY_FRAGMENT,
+  createMockCommerce,
+  createShopifyCommerce,
+  isShopifyConfigured,
+} from '~/lib/commerce';
 
 /**
- * Creates Hydrogen context for React Router 7.9.x
- * Returns HydrogenRouterContextProvider with hybrid access patterns
- * */
+ * Creates Hydrogen context for React Router, plus `commerce` (Storefront
+ * API or the mock catalogue) and the request `locale`.
+ */
 export async function createHydrogenRouterContext(
   request: Request,
   env: Env,
   executionContext: ExecutionContext,
 ) {
-  /**
-   * Open a cache instance in the worker and a custom session instance.
-   */
   if (!env?.SESSION_SECRET) {
     throw new Error('SESSION_SECRET environment variable is not set');
   }
@@ -45,6 +27,8 @@ export async function createHydrogenRouterContext(
     AppSession.init(request, [env.SESSION_SECRET]),
   ]);
 
+  const locale = getLocaleFromRequest(request);
+
   const hydrogenContext = createHydrogenContext(
     {
       env,
@@ -52,14 +36,29 @@ export async function createHydrogenRouterContext(
       cache,
       waitUntil,
       session,
-      // Or detect from URL path based on locale subpath, cookies, or any other strategy
-      i18n: {language: 'EN', country: 'US'},
+      // Country AE so Shopify returns AED prices from the UAE market.
+      i18n: locale.storefront,
       cart: {
         queryFragment: CART_QUERY_FRAGMENT,
       },
     },
-    additionalContext,
+    {locale},
   );
 
+  const commerce = isShopifyConfigured(env)
+    ? createShopifyCommerce({
+        storefront: hydrogenContext.storefront,
+        cart: hydrogenContext.cart,
+      })
+    : createMockCommerce({session, locale, env});
+
+  hydrogenContext.commerce = commerce;
   return hydrogenContext;
+}
+
+declare global {
+  interface HydrogenAdditionalContext {
+    locale: import('~/lib/i18n').Locale;
+    commerce: import('~/lib/commerce').Commerce;
+  }
 }
