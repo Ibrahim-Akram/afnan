@@ -17,15 +17,24 @@ export async function loader({params, context}: Route.LoaderArgs) {
   assertLocaleParam(params.locale);
   const {commerce, customerAccount} = context;
 
-  if (commerce.mode === 'mock') {
-    return {demo: true, name: DEMO_LOYALTY.name, points: DEMO_LOYALTY.points};
-  }
+  const demo = {
+    demo: true,
+    canSignIn: commerce.mode === 'shopify',
+    name: DEMO_LOYALTY.name,
+    points: DEMO_LOYALTY.points,
+  };
+  if (commerce.mode === 'mock') return {...demo, canSignIn: false};
 
-  await customerAccount.handleAuthStatus();
+  // Signed-out visitors (or a store without customer accounts set up) see
+  // the demo widget with a sign-in button instead of a forced redirect.
+  const loggedIn = await customerAccount.isLoggedIn().catch(() => false);
+  if (!loggedIn) return demo;
+
   const {data} = await customerAccount.query(CUSTOMER_LOYALTY_QUERY);
   const points = Number(data?.customer?.points?.value);
   return {
     demo: false,
+    canSignIn: false,
     name: data?.customer?.firstName || '',
     // Dummy balance until the loyalty app syncs real points.
     points: Number.isFinite(points) && points > 0 ? points : DEMO_LOYALTY.points,
@@ -33,13 +42,15 @@ export async function loader({params, context}: Route.LoaderArgs) {
 }
 
 export default function Account() {
-  const {demo, name, points} = useLoaderData<typeof loader>();
+  const {demo, canSignIn, name, points} = useLoaderData<typeof loader>();
   const {t, path} = useLocale();
 
   return (
     <div className="container page account">
       <h1>{t('account.greeting', {name: name || t('account.title')})}</h1>
-      {demo && <p className="notice">{t('account.demo')}</p>}
+      {demo && (
+        <p className="notice">{canSignIn ? t('account.signInDemo') : t('account.demo')}</p>
+      )}
       <LoyaltyWidget points={points} />
       <section className="section">
         <h2>{t('account.orders')}</h2>
@@ -49,6 +60,11 @@ export default function Account() {
         <Link className="button button--outline" to={path('/loyalty')}>
           {t('account.howToEarn')}
         </Link>
+        {canSignIn && (
+          <Link className="button" to="/account/login" reloadDocument>
+            {t('account.signIn')}
+          </Link>
+        )}
         {!demo && (
           <Form method="post" action="/account/logout">
             <button className="button button--outline">{t('account.logout')}</button>
