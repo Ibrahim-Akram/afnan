@@ -18,9 +18,13 @@ handles below so both modes behave the same (they live in
    ```
    `npx shopify hydrogen link` followed by `npx shopify hydrogen env pull`
    fills these in automatically, including the Customer Account API values.
-4. Settings → Markets: add the United Arab Emirates with AED. The
+4. Settings → General → Store defaults: set the store currency to **AED**.
+   Development stores can't add a second currency, so AED has to be the
+   main one. Then Settings → Markets: add the United Arab Emirates. The
    storefront queries with country `AE`, so prices come back in AED.
-5. Settings → Languages: add Arabic and translate products with
+5. Settings → Shipping and delivery: add a UAE shipping zone. Without one,
+   tracked products report as sold out to `AE` buyers.
+6. Settings → Languages: add Arabic and translate products with
    *Translate & Adapt*. `/ar` pages query with language `AR`.
 
 ## 2. Products and collections

@@ -1,5 +1,6 @@
 import type {HydrogenCart, Storefront} from '@shopify/hydrogen';
 import {STORE} from '~/lib/store-config';
+import {artFor} from './art';
 import type {
   Cart,
   CartApi,
@@ -92,7 +93,12 @@ export function createShopifyCommerce({
         cache: storefront.CacheLong(),
       });
       return collections.nodes
-        .filter((c) => c.handle !== STORE.collections.giftBoxPerfumes)
+        // `frontpage` is Shopify's default "Home page" collection.
+        .filter(
+          (c) =>
+            c.handle !== STORE.collections.giftBoxPerfumes &&
+            c.handle !== 'frontpage',
+        )
         .map((c) => ({...c, description: c.description ?? ''}));
     },
     async getCollection(handle): Promise<Collection | null> {
@@ -131,6 +137,7 @@ function toProduct(p: AfnanProductFragment): Product {
     tags: p.tags,
     collections: p.collections.nodes.map((c) => c.handle),
     image: p.featuredImage ?? null,
+    art: artFor(p.handle),
     variants,
     price: p.priceRange.minVariantPrice,
     compareAtPrice:
@@ -169,6 +176,7 @@ function toCart(c: CartApiQueryFragment): Cart {
             availableForSale: m.availableForSale,
             price: m.price,
             image: m.image ?? null,
+            art: artFor(m.product.handle),
             product: {
               handle: m.product.handle,
               title: m.product.title,
