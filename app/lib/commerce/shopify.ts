@@ -4,7 +4,9 @@ import {artFor} from './art';
 import type {
   Cart,
   CartApi,
+  CartLine,
   Collection,
+  Money,
   Commerce,
   Product,
 } from './types';
@@ -41,6 +43,11 @@ export function createShopifyCommerce({
     return cart.get();
   };
 
+  const rowsById = async () =>
+    new Map(
+      ((await cart.get())?.lines ?? []).map((l) => [l.id, l.lineIds ?? [l.id]]),
+    );
+
   const cart: CartApi = {
     async get() {
       if (!cartId) return null;
@@ -51,10 +58,19 @@ export function createShopifyCommerce({
       return settle(await hydrogenCart.addLines(lines, {cartId}));
     },
     async updateLines(lines) {
-      return settle(await hydrogenCart.updateLines(lines, {cartId}));
+      // A merged row sets its first line to the new total and clears the
+      // rest; Shopify splits it again if the discount needs that.
+      const rows = await rowsById();
+      const expanded = lines.flatMap(({id, quantity}) => {
+        const [first = id, ...rest] = rows.get(id) ?? [id];
+        return [{id: first, quantity}, ...rest.map((r) => ({id: r, quantity: 0}))];
+      });
+      return settle(await hydrogenCart.updateLines(expanded, {cartId}));
     },
     async removeLines(ids) {
-      return settle(await hydrogenCart.removeLines(ids, {cartId}));
+      const rows = await rowsById();
+      const expanded = ids.flatMap((id) => rows.get(id) ?? [id]);
+      return settle(await hydrogenCart.removeLines(expanded, {cartId}));
     },
     async updateAttributes(attributes) {
       // cartAttributesUpdate replaces the whole set, so merge first.
@@ -156,7 +172,7 @@ function toCart(c: CartApiQueryFragment): Cart {
     attributes: c.attributes.map((a) => ({key: a.key, value: a.value ?? ''})),
     note: c.note ?? '',
     cost: {subtotal: c.cost.subtotalAmount, total: c.cost.totalAmount},
-    lines: c.lines.nodes.flatMap((line) => {
+    lines: mergeSplitLines(c.lines.nodes.flatMap((line) => {
       const m = line.merchandise;
       if (m.__typename !== 'ProductVariant') return [];
       const discounted =
@@ -189,8 +205,38 @@ function toCart(c: CartApiQueryFragment): Cart {
           },
         },
       ];
-    }),
+    })),
   };
+}
+
+/** Joins lines with the same variant and attributes into one cart row. */
+function mergeSplitLines(lines: CartLine[]): CartLine[] {
+  const rows = new Map<string, CartLine>();
+  const add = (a: Money, b: Money): Money => ({
+    ...a,
+    amount: String(Number(a.amount) + Number(b.amount)),
+  });
+  for (const line of lines) {
+    const key = JSON.stringify([
+      line.merchandise.id,
+      [...line.attributes].sort((x, y) => x.key.localeCompare(y.key)),
+    ]);
+    const row = rows.get(key);
+    if (!row) {
+      rows.set(key, {...line, lineIds: [line.id]});
+      continue;
+    }
+    const subtotal = (l: CartLine) => l.cost.compareAtTotal ?? l.cost.total;
+    const total = add(row.cost.total, line.cost.total);
+    const full = add(subtotal(row), subtotal(line));
+    row.lineIds!.push(line.id);
+    row.quantity += line.quantity;
+    row.cost = {
+      total,
+      compareAtTotal: Number(total.amount) < Number(full.amount) ? full : null,
+    };
+  }
+  return [...rows.values()];
 }
 
 const PRODUCT_FRAGMENT = `#graphql

@@ -53,6 +53,12 @@ export type Collection = {
 
 export type CartLine = {
   id: string;
+  /**
+   * Every Shopify line this row stands for. Shopify splits one product into
+   * several lines when a Buy X Get Y discount uses part of the quantity, and
+   * the cart shows them as one row.
+   */
+  lineIds?: string[];
   quantity: number;
   attributes: Attribute[];
   merchandise: {
