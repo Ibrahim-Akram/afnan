@@ -68,6 +68,9 @@ export function Header() {
         <div className="header__actions">
           <Link
             to={switchLocalePath(pathname, other) + search}
+            // A full load: `/` and `/ar` match the same route, so a client
+            // navigation would keep the old language's loader data.
+            reloadDocument
             className="lang-switch"
             aria-label={t('nav.languageLabel')}
             lang={other}
