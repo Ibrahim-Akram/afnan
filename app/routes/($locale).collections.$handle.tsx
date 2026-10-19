@@ -1,9 +1,9 @@
-import {useLoaderData} from 'react-router';
+import {useLoaderData, useRouteLoaderData} from 'react-router';
 import type {Route} from './+types/($locale).collections.$handle';
 import {assertLocaleParam, useLocale} from '~/lib/i18n';
 import {ProductGrid} from '~/components/ProductCard';
 import {FreeGiftNotice} from '~/components/FreeGiftNotice';
-import {STORE} from '~/lib/store-config';
+import type {RootLoader} from '~/root';
 
 export const meta: Route.MetaFunction = ({data}) => [
   {title: `${data?.collection.title ?? ''} | Afnan`},
@@ -19,6 +19,7 @@ export async function loader({params, context}: Route.LoaderArgs) {
 export default function CollectionPage() {
   const {collection} = useLoaderData<typeof loader>();
   const {t} = useLocale();
+  const offer = useRouteLoaderData<RootLoader>('root')?.giftOffer;
   const products = collection.products.filter((p) => !p.tags.includes('hidden'));
 
   return (
@@ -28,7 +29,7 @@ export default function CollectionPage() {
         {collection.description && <p className="lead">{collection.description}</p>}
         <p className="muted small">{t('collection.count', {count: products.length})}</p>
       </header>
-      {collection.handle === STORE.collections.femme && <FreeGiftNotice promo />}
+      {collection.handle === offer?.buyCollection && <FreeGiftNotice promo />}
       {products.length ? (
         <ProductGrid products={products} quickAdd />
       ) : (

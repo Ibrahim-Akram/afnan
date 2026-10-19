@@ -1,11 +1,11 @@
-import {useLoaderData} from 'react-router';
+import {useLoaderData, useRouteLoaderData} from 'react-router';
 import type {Route} from './+types/($locale).products.$handle';
 import {assertLocaleParam, useLocale} from '~/lib/i18n';
 import {ProductMedia} from '~/components/ProductMedia';
 import {Price} from '~/components/Price';
 import {AddToBag} from '~/components/AddToBag';
 import {FreeGiftNotice} from '~/components/FreeGiftNotice';
-import {STORE} from '~/lib/store-config';
+import type {RootLoader} from '~/root';
 
 export const meta: Route.MetaFunction = ({data}) => [
   {title: `${data?.product.title ?? ''} | Afnan`},
@@ -26,7 +26,8 @@ export default function ProductPage() {
   const {product} = useLoaderData<typeof loader>();
   const {t} = useLocale();
   const variant = product.variants.find((v) => v.availableForSale) ?? product.variants[0];
-  const qualifies = product.collections.includes(STORE.collections.femme);
+  const offer = useRouteLoaderData<RootLoader>('root')?.giftOffer;
+  const qualifies = Boolean(offer && product.collections.includes(offer.buyCollection));
 
   return (
     <div className="container page product">

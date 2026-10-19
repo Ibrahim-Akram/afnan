@@ -34,6 +34,18 @@ export const CART_ATTR = {
   giftWrap: 'Gift wrap',
 } as const;
 
+/**
+ * The free gift offer used until the `afnan_settings` metaobject says
+ * otherwise (see app/lib/offer.ts). Buy anything from `buyCollection`, then
+ * either `getProduct` is added for free, or, when it is null, the customer
+ * picks one product from `getCollection`.
+ */
+export const DEFAULT_GIFT_OFFER = {
+  buyCollection: STORE.collections.femme,
+  getProduct: null,
+  getCollection: STORE.collections.femme,
+} as const;
+
 export const BUDGETS = [
   {id: 'under-200', min: 0, max: 200},
   {id: '200-400', min: 200, max: 400},

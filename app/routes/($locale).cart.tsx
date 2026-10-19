@@ -1,7 +1,8 @@
 import {data, useLoaderData, type HeadersFunction} from 'react-router';
 import type {Route} from './+types/($locale).cart';
 import {CartView} from '~/components/CartView';
-import {syncManagedLines} from '~/lib/gifting';
+import {chooseFreeGift, syncManagedLines} from '~/lib/gifting';
+import {getGiftOffer} from '~/lib/offer';
 import {assertLocaleParam, translate} from '~/lib/i18n';
 import {CART_ATTR, LINE_ATTR, STORE} from '~/lib/store-config';
 import type {Cart, CartLineInput} from '~/lib/commerce/types';
@@ -23,8 +24,12 @@ export async function loader({params}: Route.LoaderArgs) {
 }
 
 export async function action({request, context}: Route.ActionArgs) {
-  const {commerce, locale} = context;
+  const {commerce, locale, storefront} = context;
   const form = await request.formData();
+  const offer = await getGiftOffer({
+    storefront,
+    useShopify: commerce.mode === 'shopify',
+  });
   const intent = String(form.get('intent') ?? '');
   const t = (key: Parameters<typeof translate>[1]) => translate(locale.language, key);
   let error: string | undefined;
@@ -52,6 +57,12 @@ export async function action({request, context}: Route.ActionArgs) {
       if (result) error = t(result);
       break;
     }
+    case 'chooseGift': {
+      const variantId = String(form.get('merchandiseId') ?? '');
+      const result = await chooseFreeGift(commerce, offer, variantId);
+      if (result) error = t(result);
+      break;
+    }
     case 'giftOptions': {
       const isGift = form.get('isGift') === 'on';
       const message = String(form.get('giftMessage') ?? '').trim();
@@ -72,7 +83,7 @@ export async function action({request, context}: Route.ActionArgs) {
   }
 
   // Free gift and gift wrap lines follow whatever the customer just changed.
-  const cart = await syncManagedLines(commerce);
+  const cart = await syncManagedLines(commerce, offer);
 
   const headers = commerce.cart.headers();
   const redirectTo = form.get('redirectTo');

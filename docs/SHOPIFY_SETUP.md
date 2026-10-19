@@ -59,13 +59,27 @@ returns the normal look.
 Discounts → Create discount → **Buy X get Y**, method **Automatic**:
 
 - Customer buys: minimum quantity 1, items from collection `femme-collection`.
-- Customer gets: quantity 1 of product `femme-free-gift`, **Free**.
+- Customer gets: quantity 1 from collection `femme-collection` (or one
+  fixed product such as `femme-free-gift`), **Free**.
 - Maximum number of uses per order: **1**.
 
-The storefront (`app/lib/gifting.ts`) adds the gift line when a Femme product
-is in the cart, removes it when the last one goes, keeps it at quantity 1,
-and shows a message instead of adding it when the gift is out of stock. The
-discount makes it free at checkout.
+The storefront reads the same offer from the `afnan_settings` entry, so set
+these fields to match the discount whenever you change it (no deploy needed):
+
+- `gift_buy_collection` (Collection): buying from it unlocks the gift.
+- `gift_collection` (Collection): the customer picks one free product from it
+  in the cart.
+- `gift_product` (Product): set this instead to add one fixed gift
+  automatically. It wins over `gift_collection`.
+
+Empty fields fall back to `DEFAULT_GIFT_OFFER` in `app/lib/store-config.ts`.
+
+The storefront (`app/lib/gifting.ts`) shows the gift picker or adds the fixed
+gift, removes it when the last qualifying product goes, keeps it at quantity
+1, and shows a message when no gift is in stock. The picker only offers gifts
+that cost no more than the cheapest qualifying item in the bag, because
+Shopify's Buy X Get Y makes the cheapest eligible item free. The discount makes
+the gift free at checkout.
 
 ## 5. Gift options on the order
 

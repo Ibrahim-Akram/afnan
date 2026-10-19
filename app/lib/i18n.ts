@@ -121,6 +121,11 @@ const en = {
     'You qualify for a free gift, but it is out of stock right now. Your order can still go ahead as normal.',
   'gwp.free': 'Free',
   'gwp.label': 'Free gift',
+  'gwp.chooseTitle': 'Choose your free gift',
+  'gwp.chooseDetail': 'Pick any one of these. It comes free with your order.',
+  'gwp.choose': 'Choose',
+  'gwp.change': 'Change gift',
+  'gwp.unavailable': 'That gift isn’t available any more. Please choose another.',
 
   'collection.empty': 'No products here yet.',
   'collection.count': '{count} products',
@@ -330,6 +335,11 @@ const ar: Record<MessageKey, string> = {
     'أنت مؤهل لهدية مجانية لكنها غير متوفرة حالياً. يمكنك إكمال طلبك كالمعتاد.',
   'gwp.free': 'مجاناً',
   'gwp.label': 'هدية مجانية',
+  'gwp.chooseTitle': 'اختر هديتك المجانية',
+  'gwp.chooseDetail': 'اختر واحدة منها، وتصلك مجاناً مع طلبك.',
+  'gwp.choose': 'اختيار',
+  'gwp.change': 'تغيير الهدية',
+  'gwp.unavailable': 'هذه الهدية لم تعد متاحة. يرجى اختيار هدية أخرى.',
 
   'collection.empty': 'لا توجد منتجات هنا بعد.',
   'collection.count': '{count} منتجات',

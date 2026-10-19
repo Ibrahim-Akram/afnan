@@ -16,8 +16,8 @@ import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import {PageLayout} from '~/components/PageLayout';
 import {getRamadanSettings} from '~/lib/ramadan';
-import {getFreeGiftState} from '~/lib/gifting';
-import {STORE} from '~/lib/store-config';
+import {getFreeGiftState, getGiftOptions} from '~/lib/gifting';
+import {getGiftOffer} from '~/lib/offer';
 import {LOCALES, translate} from '~/lib/i18n';
 
 export type RootLoader = typeof loader;
@@ -38,23 +38,28 @@ export function links() {
 export async function loader({request, context}: Route.LoaderArgs) {
   const {commerce, locale, session, env, storefront} = context;
 
-  const [cart, ramadan, freeGift] = await Promise.all([
+  const useShopify = commerce.mode === 'shopify';
+  const [cart, ramadan, offer] = await Promise.all([
     commerce.cart.get(),
-    getRamadanSettings({
-      request,
-      session,
-      env,
-      storefront,
-      useShopify: commerce.mode === 'shopify',
-    }),
-    commerce.getProduct(STORE.products.freeGift).catch(() => null),
+    getRamadanSettings({request, session, env, storefront, useShopify}),
+    getGiftOffer({storefront, useShopify}),
+  ]);
+  const [giftProduct, giftOptions] = await Promise.all([
+    offer.getProduct
+      ? commerce.getProduct(offer.getProduct).catch(() => null)
+      : null,
+    getGiftOptions(commerce, cart, offer).catch(() => []),
   ]);
 
   return {
     locale,
     ramadan,
     cart,
-    freeGift: getFreeGiftState(cart, Boolean(freeGift?.availableForSale)),
+    giftOffer: offer,
+    freeGift: getFreeGiftState(cart, offer, {
+      giftAvailable: Boolean(giftProduct?.availableForSale),
+      options: giftOptions,
+    }),
     mode: commerce.mode,
     now: Date.now(),
   };

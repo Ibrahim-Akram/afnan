@@ -277,6 +277,24 @@ export type CartApiQueryFragment = Pick<
   };
 };
 
+export type AfnanGiftOfferQueryVariables = StorefrontAPI.Exact<{
+  [key: string]: never;
+}>;
+
+export type AfnanGiftOfferQuery = {
+  metaobject?: StorefrontAPI.Maybe<{
+    buyCollection?: StorefrontAPI.Maybe<{
+      reference?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Collection, 'handle'>>;
+    }>;
+    getProduct?: StorefrontAPI.Maybe<{
+      reference?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Product, 'handle'>>;
+    }>;
+    getCollection?: StorefrontAPI.Maybe<{
+      reference?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Collection, 'handle'>>;
+    }>;
+  }>;
+};
+
 export type AfnanRamadanSettingsQueryVariables = StorefrontAPI.Exact<{
   [key: string]: never;
 }>;
@@ -306,6 +324,10 @@ interface GeneratedQueryTypes {
   '#graphql\n  query AfnanCollections($country: CountryCode, $language: LanguageCode)\n  @inContext(country: $country, language: $language) {\n    collections(first: 20) { nodes { id handle title description } }\n  }\n': {
     return: AfnanCollectionsQuery;
     variables: AfnanCollectionsQueryVariables;
+  };
+  '#graphql\n  query AfnanGiftOffer {\n    metaobject(handle: {type: "afnan_settings", handle: "storefront"}) {\n      buyCollection: field(key: "gift_buy_collection") {\n        reference { ... on Collection { handle } }\n      }\n      getProduct: field(key: "gift_product") {\n        reference { ... on Product { handle } }\n      }\n      getCollection: field(key: "gift_collection") {\n        reference { ... on Collection { handle } }\n      }\n    }\n  }\n': {
+    return: AfnanGiftOfferQuery;
+    variables: AfnanGiftOfferQueryVariables;
   };
   '#graphql\n  query AfnanRamadanSettings {\n    metaobject(handle: {type: "afnan_settings", handle: "storefront"}) {\n      ramadanMode: field(key: "ramadan_mode") { value }\n      eidDate: field(key: "eid_date") { value }\n    }\n  }\n': {
     return: AfnanRamadanSettingsQuery;

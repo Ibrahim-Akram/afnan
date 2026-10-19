@@ -42,7 +42,7 @@ export function CartView() {
       <h1>{t('cart.title')}</h1>
       <div className="cart__layout">
         <div>
-          <FreeGiftNotice />
+          <FreeGiftNotice chooser />
           <ul className="cart__lines">
             {cart.lines.map((line) => (
               <CartLineItem key={line.id} line={line} />
