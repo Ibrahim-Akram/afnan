@@ -685,3 +685,27 @@ html[data-ramadan='on'] .footer { background: #0f1b3d; color: #e9dcb6; }
 .gift-chooser__item .product-media { width: 56px; height: 56px; }
 .gift-chooser__title { display: grid; gap: 2px; font-size: 0.9rem; }
 .gift-chooser__change summary { cursor: pointer; margin-top: 8px; text-decoration: underline; }
+
+/* Account orders */
+.account-orders {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+.account-orders__row {
+  display: grid;
+  grid-template-columns: minmax(6rem, auto) 1fr auto auto auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--line, #e5e0d8);
+  border-radius: 8px;
+}
+.account-orders__row p { margin: 0; }
+.account-orders__name, .account-orders__total { font-weight: 600; }
+@media (max-width: 640px) {
+  .account-orders__row { grid-template-columns: 1fr auto; }
+  .account-orders__items { grid-column: 1 / -1; }
+}

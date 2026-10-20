@@ -26,5 +26,24 @@ export function progressFor(points: number) {
   return {tier, next, percent, remaining: next.min - points};
 }
 
+/** Earning rules configured in the Love Loyalty app. */
+export const SIGNUP_POINTS = 100;
+export const POINTS_PER_AED = 1;
+
+/**
+ * The loyalty app keeps its ledger in its own system, so when no
+ * loyalty.points metafield is synced the balance is worked out from the
+ * customer's real orders with the same rules: sign-up bonus plus
+ * 1 point per AED on paid, uncancelled orders.
+ */
+export function estimatePoints(
+  orders: {financialStatus?: string | null; cancelledAt?: string | null; subtotal?: {amount: string} | null}[],
+) {
+  const earned = orders
+    .filter((o) => !o.cancelledAt && (o.financialStatus === 'PAID' || o.financialStatus === 'PARTIALLY_REFUNDED'))
+    .reduce((sum, o) => sum + Math.floor(Number(o.subtotal?.amount ?? 0) * POINTS_PER_AED), 0);
+  return SIGNUP_POINTS + earned;
+}
+
 /** Dummy balance until a loyalty app writes real values to the customer. */
 export const DEMO_LOYALTY = {name: 'Mariam', points: 1640};
