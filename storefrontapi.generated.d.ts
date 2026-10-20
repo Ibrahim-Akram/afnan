@@ -351,6 +351,27 @@ export type AfnanRamadanSettingsQuery = {
       Pick<StorefrontAPI.MetaobjectField, 'value'>
     >;
     eidDate?: StorefrontAPI.Maybe<Pick<StorefrontAPI.MetaobjectField, 'value'>>;
+    heroImage?: StorefrontAPI.Maybe<{
+      reference?: StorefrontAPI.Maybe<
+        | {
+            __typename:
+              | 'Article'
+              | 'Collection'
+              | 'GenericFile'
+              | 'Metaobject'
+              | 'Model3d'
+              | 'Page'
+              | 'Product'
+              | 'ProductVariant'
+              | 'Video';
+          }
+        | ({__typename: 'MediaImage'} & {
+            image?: StorefrontAPI.Maybe<
+              Pick<StorefrontAPI.Image, 'url' | 'altText'>
+            >;
+          })
+      >;
+    }>;
   }>;
 };
 
@@ -375,7 +396,7 @@ interface GeneratedQueryTypes {
     return: AfnanGiftOfferQuery;
     variables: AfnanGiftOfferQueryVariables;
   };
-  '#graphql\n  query AfnanRamadanSettings {\n    metaobject(handle: {type: "afnan_settings", handle: "storefront"}) {\n      ramadanMode: field(key: "ramadan_mode") { value }\n      eidDate: field(key: "eid_date") { value }\n    }\n  }\n': {
+  '#graphql\n  query AfnanRamadanSettings {\n    metaobject(handle: {type: "afnan_settings", handle: "storefront"}) {\n      ramadanMode: field(key: "ramadan_mode") { value }\n      eidDate: field(key: "eid_date") { value }\n      heroImage: field(key: "hero_image") {\n        reference {\n          __typename\n          ... on MediaImage { image { url altText } }\n        }\n      }\n    }\n  }\n': {
     return: AfnanRamadanSettingsQuery;
     variables: AfnanRamadanSettingsQueryVariables;
   };
