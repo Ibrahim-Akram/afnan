@@ -28,7 +28,8 @@ export const LOCALES: Record<Language, Locale> = {
 
 export function getLocaleFromRequest(request: Request): Locale {
   const [first] = new URL(request.url).pathname.split('/').filter(Boolean);
-  return first?.toLowerCase() === 'ar' ? LOCALES.ar : LOCALES.en;
+  // Client navigations fetch `/ar.data` for the Arabic home page.
+  return /^ar(\.data)?$/i.test(first ?? '') ? LOCALES.ar : LOCALES.en;
 }
 
 /** Throws a 404 for unknown `($locale)` segments such as `/fr/...`. */
