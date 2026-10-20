@@ -142,7 +142,12 @@ function toProduct(p: AfnanProductFragment): Product {
     availableForSale: v.availableForSale,
     price: v.price,
     compareAtPrice: v.compareAtPrice ?? null,
+    selectedOptions: v.selectedOptions,
+    image: v.image ?? null,
   }));
+  const options = p.options
+    .filter((o) => !(o.optionValues.length === 1 && o.optionValues[0].name === 'Default Title'))
+    .map((o) => ({name: o.name, values: o.optionValues.map((v) => v.name)}));
   return {
     id: p.id,
     handle: p.handle,
@@ -155,6 +160,7 @@ function toProduct(p: AfnanProductFragment): Product {
     image: p.featuredImage ?? null,
     art: artFor(p.handle),
     variants,
+    options,
     price: p.priceRange.minVariantPrice,
     compareAtPrice:
       Number(p.compareAtPriceRange.minVariantPrice.amount) > 0
@@ -253,13 +259,16 @@ const PRODUCT_FRAGMENT = `#graphql
     collections(first: 20) { nodes { handle } }
     priceRange { minVariantPrice { amount currencyCode } }
     compareAtPriceRange { minVariantPrice { amount currencyCode } }
-    variants(first: 10) {
+    options(first: 3) { name optionValues { name } }
+    variants(first: 50) {
       nodes {
         id
         title
         availableForSale
         price { amount currencyCode }
         compareAtPrice { amount currencyCode }
+        selectedOptions { name value }
+        image { url altText }
       }
     }
   }

@@ -111,6 +111,8 @@ const en = {
   'product.soldOut': 'Sold out',
   'product.sale': 'Sale',
   'product.vendor': 'Afnan',
+  'product.chooseOptions': 'Choose options',
+  'product.unavailableCombo': 'This combination is not available.',
   'product.notFound': 'We could not find that product.',
   'product.gwpPromo':
     'Buy any Femme Collection perfume and get a free gift with your order.',
@@ -350,6 +352,8 @@ const ar: Record<MessageKey, string> = {
   'product.soldOut': 'نفدت الكمية',
   'product.sale': 'تخفيض',
   'product.vendor': 'أفنان',
+  'product.chooseOptions': 'اختر الخيارات',
+  'product.unavailableCombo': 'هذا الخيار غير متوفر.',
   'product.notFound': 'لم نعثر على هذا المنتج.',
   'product.gwpPromo': 'اشترِ أي عطر من مجموعة فام واحصل على هدية مجانية مع طلبك.',
 

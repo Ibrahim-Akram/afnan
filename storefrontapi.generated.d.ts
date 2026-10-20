@@ -24,6 +24,11 @@ export type AfnanProductFragment = Pick<
   compareAtPriceRange: {
     minVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
   };
+  options: Array<
+    Pick<StorefrontAPI.ProductOption, 'name'> & {
+      optionValues: Array<Pick<StorefrontAPI.ProductOptionValue, 'name'>>;
+    }
+  >;
   variants: {
     nodes: Array<
       Pick<
@@ -33,6 +38,12 @@ export type AfnanProductFragment = Pick<
         price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
         compareAtPrice?: StorefrontAPI.Maybe<
           Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+        >;
+        selectedOptions: Array<
+          Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
+        >;
+        image?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.Image, 'url' | 'altText'>
         >;
       }
     >;
@@ -68,6 +79,11 @@ export type AfnanProductByHandleQuery = {
       compareAtPriceRange: {
         minVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
       };
+      options: Array<
+        Pick<StorefrontAPI.ProductOption, 'name'> & {
+          optionValues: Array<Pick<StorefrontAPI.ProductOptionValue, 'name'>>;
+        }
+      >;
       variants: {
         nodes: Array<
           Pick<
@@ -77,6 +93,12 @@ export type AfnanProductByHandleQuery = {
             price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
             compareAtPrice?: StorefrontAPI.Maybe<
               Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+            >;
+            selectedOptions: Array<
+              Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
+            >;
+            image?: StorefrontAPI.Maybe<
+              Pick<StorefrontAPI.Image, 'url' | 'altText'>
             >;
           }
         >;
@@ -120,6 +142,11 @@ export type AfnanProductsQuery = {
             'amount' | 'currencyCode'
           >;
         };
+        options: Array<
+          Pick<StorefrontAPI.ProductOption, 'name'> & {
+            optionValues: Array<Pick<StorefrontAPI.ProductOptionValue, 'name'>>;
+          }
+        >;
         variants: {
           nodes: Array<
             Pick<
@@ -129,6 +156,12 @@ export type AfnanProductsQuery = {
               price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
               compareAtPrice?: StorefrontAPI.Maybe<
                 Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+              >;
+              selectedOptions: Array<
+                Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
+              >;
+              image?: StorefrontAPI.Maybe<
+                Pick<StorefrontAPI.Image, 'url' | 'altText'>
               >;
             }
           >;
@@ -181,6 +214,13 @@ export type AfnanCollectionQuery = {
                 'amount' | 'currencyCode'
               >;
             };
+            options: Array<
+              Pick<StorefrontAPI.ProductOption, 'name'> & {
+                optionValues: Array<
+                  Pick<StorefrontAPI.ProductOptionValue, 'name'>
+                >;
+              }
+            >;
             variants: {
               nodes: Array<
                 Pick<
@@ -190,6 +230,12 @@ export type AfnanCollectionQuery = {
                   price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
                   compareAtPrice?: StorefrontAPI.Maybe<
                     Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+                  >;
+                  selectedOptions: Array<
+                    Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
+                  >;
+                  image?: StorefrontAPI.Maybe<
+                    Pick<StorefrontAPI.Image, 'url' | 'altText'>
                   >;
                 }
               >;
@@ -309,15 +355,15 @@ export type AfnanRamadanSettingsQuery = {
 };
 
 interface GeneratedQueryTypes {
-  '#graphql\n  query AfnanProductByHandle($handle: String!, $country: CountryCode, $language: LanguageCode)\n  @inContext(country: $country, language: $language) {\n    product(handle: $handle) { ...AfnanProduct }\n  }\n  #graphql\n  fragment AfnanProduct on Product {\n    id\n    handle\n    title\n    description\n    vendor\n    productType\n    tags\n    availableForSale\n    featuredImage { url altText }\n    collections(first: 20) { nodes { handle } }\n    priceRange { minVariantPrice { amount currencyCode } }\n    compareAtPriceRange { minVariantPrice { amount currencyCode } }\n    variants(first: 10) {\n      nodes {\n        id\n        title\n        availableForSale\n        price { amount currencyCode }\n        compareAtPrice { amount currencyCode }\n      }\n    }\n  }\n\n': {
+  '#graphql\n  query AfnanProductByHandle($handle: String!, $country: CountryCode, $language: LanguageCode)\n  @inContext(country: $country, language: $language) {\n    product(handle: $handle) { ...AfnanProduct }\n  }\n  #graphql\n  fragment AfnanProduct on Product {\n    id\n    handle\n    title\n    description\n    vendor\n    productType\n    tags\n    availableForSale\n    featuredImage { url altText }\n    collections(first: 20) { nodes { handle } }\n    priceRange { minVariantPrice { amount currencyCode } }\n    compareAtPriceRange { minVariantPrice { amount currencyCode } }\n    options(first: 3) { name optionValues { name } }\n    variants(first: 50) {\n      nodes {\n        id\n        title\n        availableForSale\n        price { amount currencyCode }\n        compareAtPrice { amount currencyCode }\n        selectedOptions { name value }\n        image { url altText }\n      }\n    }\n  }\n\n': {
     return: AfnanProductByHandleQuery;
     variables: AfnanProductByHandleQueryVariables;
   };
-  '#graphql\n  query AfnanProducts($country: CountryCode, $language: LanguageCode)\n  @inContext(country: $country, language: $language) {\n    products(first: 100, sortKey: BEST_SELLING) { nodes { ...AfnanProduct } }\n  }\n  #graphql\n  fragment AfnanProduct on Product {\n    id\n    handle\n    title\n    description\n    vendor\n    productType\n    tags\n    availableForSale\n    featuredImage { url altText }\n    collections(first: 20) { nodes { handle } }\n    priceRange { minVariantPrice { amount currencyCode } }\n    compareAtPriceRange { minVariantPrice { amount currencyCode } }\n    variants(first: 10) {\n      nodes {\n        id\n        title\n        availableForSale\n        price { amount currencyCode }\n        compareAtPrice { amount currencyCode }\n      }\n    }\n  }\n\n': {
+  '#graphql\n  query AfnanProducts($country: CountryCode, $language: LanguageCode)\n  @inContext(country: $country, language: $language) {\n    products(first: 100, sortKey: BEST_SELLING) { nodes { ...AfnanProduct } }\n  }\n  #graphql\n  fragment AfnanProduct on Product {\n    id\n    handle\n    title\n    description\n    vendor\n    productType\n    tags\n    availableForSale\n    featuredImage { url altText }\n    collections(first: 20) { nodes { handle } }\n    priceRange { minVariantPrice { amount currencyCode } }\n    compareAtPriceRange { minVariantPrice { amount currencyCode } }\n    options(first: 3) { name optionValues { name } }\n    variants(first: 50) {\n      nodes {\n        id\n        title\n        availableForSale\n        price { amount currencyCode }\n        compareAtPrice { amount currencyCode }\n        selectedOptions { name value }\n        image { url altText }\n      }\n    }\n  }\n\n': {
     return: AfnanProductsQuery;
     variables: AfnanProductsQueryVariables;
   };
-  '#graphql\n  query AfnanCollection($handle: String!, $country: CountryCode, $language: LanguageCode)\n  @inContext(country: $country, language: $language) {\n    collection(handle: $handle) {\n      id\n      handle\n      title\n      description\n      products(first: 100) { nodes { ...AfnanProduct } }\n    }\n  }\n  #graphql\n  fragment AfnanProduct on Product {\n    id\n    handle\n    title\n    description\n    vendor\n    productType\n    tags\n    availableForSale\n    featuredImage { url altText }\n    collections(first: 20) { nodes { handle } }\n    priceRange { minVariantPrice { amount currencyCode } }\n    compareAtPriceRange { minVariantPrice { amount currencyCode } }\n    variants(first: 10) {\n      nodes {\n        id\n        title\n        availableForSale\n        price { amount currencyCode }\n        compareAtPrice { amount currencyCode }\n      }\n    }\n  }\n\n': {
+  '#graphql\n  query AfnanCollection($handle: String!, $country: CountryCode, $language: LanguageCode)\n  @inContext(country: $country, language: $language) {\n    collection(handle: $handle) {\n      id\n      handle\n      title\n      description\n      products(first: 100) { nodes { ...AfnanProduct } }\n    }\n  }\n  #graphql\n  fragment AfnanProduct on Product {\n    id\n    handle\n    title\n    description\n    vendor\n    productType\n    tags\n    availableForSale\n    featuredImage { url altText }\n    collections(first: 20) { nodes { handle } }\n    priceRange { minVariantPrice { amount currencyCode } }\n    compareAtPriceRange { minVariantPrice { amount currencyCode } }\n    options(first: 3) { name optionValues { name } }\n    variants(first: 50) {\n      nodes {\n        id\n        title\n        availableForSale\n        price { amount currencyCode }\n        compareAtPrice { amount currencyCode }\n        selectedOptions { name value }\n        image { url altText }\n      }\n    }\n  }\n\n': {
     return: AfnanCollectionQuery;
     variables: AfnanCollectionQueryVariables;
   };

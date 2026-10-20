@@ -54,7 +54,10 @@ export default function CheckoutPreview() {
         <tbody>
           {cart?.lines.map((line) => (
             <tr key={line.id}>
-              <td>{line.merchandise.product.title}</td>
+              <td>
+                {line.merchandise.product.title}
+                {line.merchandise.title !== 'Default Title' && ` (${line.merchandise.title})`}
+              </td>
               <td>{line.quantity}</td>
               <td>
                 {line.attributes.length

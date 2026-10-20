@@ -9,7 +9,7 @@ import {AddToBag} from './AddToBag';
 
 export function ProductCard({product, quickAdd = false}: {product: Product; quickAdd?: boolean}) {
   const {t, path} = useLocale();
-  const variant = product.variants[0];
+  const variant = product.variants.find((v) => v.availableForSale) ?? product.variants[0];
   const onSale =
     product.compareAtPrice &&
     Number(product.compareAtPrice.amount) > Number(product.price.amount);
@@ -25,8 +25,17 @@ export function ProductCard({product, quickAdd = false}: {product: Product; quic
         <h3 className="product-card__title">{product.title}</h3>
         <Price price={product.price} compareAtPrice={product.compareAtPrice} />
       </Link>
-      {quickAdd && variant && (
-        <AddToBag variantId={variant.id} available={variant.availableForSale} compact />
+      {quickAdd && variant && product.variants.length > 1 ? (
+        // Several sizes: send the shopper to pick one rather than guessing.
+        <Link
+          to={path(`/products/${product.handle}`)}
+          className="button button--outline button--small"
+        >
+          {t('product.chooseOptions')}
+        </Link>
+      ) : (
+        quickAdd &&
+        variant && <AddToBag variantId={variant.id} available={variant.availableForSale} compact />
       )}
     </article>
   );

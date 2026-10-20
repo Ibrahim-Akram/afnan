@@ -813,3 +813,12 @@ html[data-ramadan='on'] .footer { position: relative; margin-top: 140px; }
 html[data-ramadan='on'] .footer__inner { position: relative; z-index: 1; }
 .mosque-skyline.footer__skyline { top: auto; bottom: calc(100% - 1px); height: 90px; }
 .footer__skyline path { fill: #0f1b3d; }
+
+/* Variant picker on the product page. */
+.variant-picker { border: 0; padding: 0; margin: 4px 0 8px; }
+.variant-picker__label { padding: 0; margin-bottom: 8px; font-size: 0.9rem; color: var(--muted); }
+.variant-picker__label strong { color: var(--ink); font-weight: 600; }
+.variant-picker__values { display: flex; flex-wrap: wrap; gap: 8px; }
+.variant-chip { min-width: 64px; padding: 8px 16px; font-size: 0.9rem; text-align: center; text-decoration: none; color: var(--ink); border-color: var(--line); background: var(--surface); }
+.variant-chip.chip--active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.variant-chip--soldout { color: var(--muted); text-decoration: line-through; opacity: 0.7; }
