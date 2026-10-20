@@ -1,4 +1,6 @@
-import {Link} from 'react-router';
+import {Link, useRouteLoaderData} from 'react-router';
+import {motion} from 'framer-motion';
+import type {RootLoader} from '~/root';
 import type {Product} from '~/lib/commerce/types';
 import {useLocale} from '~/lib/i18n';
 import {ProductMedia} from './ProductMedia';
@@ -31,10 +33,31 @@ export function ProductCard({product, quickAdd = false}: {product: Product; quic
 }
 
 export function ProductGrid({products, quickAdd}: {products: Product[]; quickAdd?: boolean}) {
+  const ramadan = Boolean(useRouteLoaderData<RootLoader>('root')?.ramadan.enabled);
+  if (!ramadan) {
+    return (
+      <div className="product-grid">
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} quickAdd={quickAdd} />
+        ))}
+      </div>
+    );
+  }
+  // Ramadan: cards rise in one after another as they scroll into view.
   return (
     <div className="product-grid">
-      {products.map((product) => (
-        <ProductCard key={product.id} product={product} quickAdd={quickAdd} />
+      {products.map((product, i) => (
+        <motion.div
+          key={product.id}
+          className="product-grid__cell"
+          initial={{opacity: 0, y: 28}}
+          whileInView={{opacity: 1, y: 0}}
+          viewport={{once: true, margin: '0px 0px -40px 0px'}}
+          transition={{duration: 0.55, delay: (i % 4) * 0.08, ease: [0.16, 1, 0.3, 1]}}
+          whileHover={{y: -6}}
+        >
+          <ProductCard product={product} quickAdd={quickAdd} />
+        </motion.div>
       ))}
     </div>
   );

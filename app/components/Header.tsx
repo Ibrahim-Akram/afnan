@@ -1,4 +1,6 @@
 import {NavLink, Link, useLocation, useRouteLoaderData} from 'react-router';
+import {motion} from 'framer-motion';
+import {TwinklingStars} from './ramadan/Stars';
 import {useEffect, useRef} from 'react';
 import type {RootLoader} from '~/root';
 import {switchLocalePath, useLocale, type MessageKey} from '~/lib/i18n';
@@ -45,6 +47,7 @@ export function Header() {
 
   return (
     <header className="header">
+      {ramadan && <TwinklingStars count={24} seed={5} className="header__stars" />}
       <div className="header__inner container">
         <details className="mobile-menu" ref={menuRef}>
           <summary aria-label={t('nav.menu')}>
@@ -56,7 +59,20 @@ export function Header() {
         </details>
 
         <Link to={path('/')} className="logo" aria-label="Afnan home">
-          {ramadan && <Crescent className="logo__crescent" />}
+          {ramadan && (
+            <motion.span
+              className="logo__crescent-wrap"
+              initial={{opacity: 0, scale: 0.4, rotate: -40}}
+              animate={{opacity: 1, scale: [1, 1.15, 1], rotate: 0}}
+              transition={{
+                opacity: {duration: 0.6},
+                rotate: {duration: 0.8, ease: 'easeOut'},
+                scale: {duration: 3, repeat: Infinity, ease: 'easeInOut'},
+              }}
+            >
+              <Crescent className="logo__crescent" />
+            </motion.span>
+          )}
           <span className="logo__word">AFNAN</span>
           <span className="logo__sub">{t('brand.tagline')}</span>
         </Link>

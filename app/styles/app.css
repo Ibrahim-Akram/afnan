@@ -338,17 +338,98 @@ html[lang='ar'] .eyebrow { letter-spacing: 0; text-transform: none; font-size: 0
 .ramadan-banner p,
 .gifting-hero .lead,
 .loyalty-hero .lead { color: #e9dcb6; }
-.ramadan-banner__lantern {
+/* Animated Ramadan scene (framer-motion drives the movement). */
+.ramadan-banner--animated { min-height: 460px; display: flex; align-items: center; }
+.ramadan-banner--animated .ramadan-banner__inner { padding-block: 72px 120px; z-index: 2; }
+.ramadan-banner__title { font-size: clamp(2rem, 4.5vw, 3.4rem); text-shadow: 0 0 24px rgb(212 175 55 / 0.35); }
+.twinkling-stars { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.twinkling-stars span { position: absolute; border-radius: 50%; background: #f6e7b9; box-shadow: 0 0 6px rgb(246 231 185 / 0.8); }
+.ramadan-banner__lantern { position: absolute; top: 0; z-index: 1; pointer-events: none; }
+.ramadan-banner__lantern--a { inset-inline-end: 14%; }
+.ramadan-banner__lantern--b { inset-inline-end: 6%; }
+.ramadan-banner__lantern--c { inset-inline-end: 24%; opacity: 0.8; }
+.glowing-crescent.ramadan-banner__moon { position: absolute; top: 22px; inset-inline-end: 29%; width: 100px; height: 100px; z-index: 0; }
+.glowing-crescent { position: relative; pointer-events: none; }
+.glowing-crescent svg { position: relative; filter: drop-shadow(0 0 18px rgb(243 210 122 / 0.6)); }
+.glowing-crescent__halo {
   position: absolute;
-  top: 0;
-  width: 44px;
-  color: #d4af37;
-  opacity: 0.8;
+  inset: -40%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(243 210 122 / 0.35), transparent 65%);
 }
-.ramadan-banner__lantern--a { inset-inline-end: 12%; height: 120px; }
-.ramadan-banner__lantern--b { inset-inline-end: 4%; height: 80px; width: 32px; opacity: 0.55; }
+html[dir='rtl'] .glowing-crescent svg { transform: scaleX(-1); }
+.mosque-skyline { position: absolute; inset-inline: 0; bottom: 0; width: 100%; height: 110px; z-index: 1; pointer-events: none; }
+.rising-sparkles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; }
+.rising-sparkles span {
+  position: absolute;
+  bottom: 20px;
+  border-radius: 50%;
+  background: #f3d27a;
+  box-shadow: 0 0 8px 2px rgb(243 210 122 / 0.6);
+}
+.button--shine { position: relative; overflow: hidden; }
+.button--shine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 0.55) 50%, transparent 70%);
+  transform: translateX(-120%);
+  animation: afnan-shine 3.2s ease-in-out infinite;
+}
+@keyframes afnan-shine { 60%, 100% { transform: translateX(120%); } }
 @media (max-width: 40em) {
-  .ramadan-banner__lantern { display: none; }
+  .ramadan-banner__lantern--b, .ramadan-banner__lantern--c { display: none; }
+  .ramadan-banner__lantern--a { inset-inline-end: 4%; opacity: 0.6; }
+  .glowing-crescent.ramadan-banner__moon { width: 80px; height: 80px; top: 24px; inset-inline-end: 22%; opacity: 0.7; }
+}
+
+/* Switch moment: full-screen night sky when Ramadan mode turns on. */
+.ramadan-reveal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 20px;
+  background:
+    radial-gradient(circle at 50% 40%, rgb(212 175 55 / 0.25), transparent 45%),
+    linear-gradient(170deg, #0a1430, #1d2f63);
+  pointer-events: none;
+}
+.ramadan-reveal--off { background: rgb(15 27 61 / 0.85); }
+.ramadan-reveal__moon { width: 160px; height: 160px; }
+.ramadan-reveal__text {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  color: #f6e7b9;
+  text-transform: uppercase;
+  text-shadow: 0 0 30px rgb(243 210 122 / 0.6);
+}
+
+/* Ramadan touches across the site. */
+html[data-ramadan='on'] .header { position: relative; overflow: hidden; }
+.header__stars { opacity: 0.7; z-index: 0; }
+html[data-ramadan='on'] .header__inner { position: relative; z-index: 1; }
+.logo__crescent-wrap { display: inline-flex; }
+.announcement__icon-wrap { display: inline-flex; }
+.announcement__shimmer {
+  background: linear-gradient(90deg, var(--announce-ink) 40%, #fff6d6 50%, var(--announce-ink) 60%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: afnan-text-shimmer 4s linear infinite;
+}
+@keyframes afnan-text-shimmer { from { background-position: 100% 0; } to { background-position: -150% 0; } }
+.product-grid__cell { display: flex; }
+.product-grid__cell > * { flex: 1; }
+html[data-ramadan='on'] .product-card { transition: box-shadow 0.3s; }
+html[data-ramadan='on'] .product-grid__cell:hover .product-card { box-shadow: 0 10px 30px -12px rgb(212 175 55 / 0.55); }
+@media (prefers-reduced-motion: reduce) {
+  .button--shine::after, .announcement__shimmer { animation: none; }
+  .announcement__shimmer { color: var(--announce-ink); background: none; }
 }
 .loyalty-hero { padding-block: 56px; }
 .loyalty-hero h1 { max-width: 40rem; }
