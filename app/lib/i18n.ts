@@ -294,11 +294,11 @@ const en = {
   'account.status.FULFILLED': 'Delivered',
   'account.status.UNFULFILLED': 'Preparing',
 
-  'footer.about': 'Afnan Perfumes. Dummy storefront built with Shopify Hydrogen.',
+  'footer.about': 'Afnan Perfumes. Fragrances of the East, made in the UAE.',
   'footer.help': 'Help',
   'footer.shipping': 'Delivery & returns',
   'footer.contact': 'Contact us',
-  'footer.ramadanSwitch': 'Ramadan look (demo switch)',
+  'footer.ramadanSwitch': 'Ramadan mode (switch)',
   'footer.on': 'On',
   'footer.off': 'Off',
 
@@ -531,11 +531,11 @@ const ar: Record<MessageKey, string> = {
   'account.status.FULFILLED': 'تم التوصيل',
   'account.status.UNFULFILLED': 'قيد التجهيز',
 
-  'footer.about': 'عطور أفنان. متجر تجريبي مبني باستخدام Shopify Hydrogen.',
+  'footer.about': 'عطور أفنان. عطور الشرق، صُنعت في الإمارات.',
   'footer.help': 'المساعدة',
   'footer.shipping': 'التوصيل والإرجاع',
   'footer.contact': 'تواصل معنا',
-  'footer.ramadanSwitch': 'مظهر رمضان (مفتاح تجريبي)',
+  'footer.ramadanSwitch': 'وضع رمضان (مفتاح)',
   'footer.on': 'تشغيل',
   'footer.off': 'إيقاف',
 

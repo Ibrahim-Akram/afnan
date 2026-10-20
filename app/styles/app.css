@@ -27,7 +27,10 @@
 
 /* Ramadan look: turned on by the merchandiser switch (data-ramadan="on"). */
 html[data-ramadan='on'] {
-  --bg: #f8f4ec;
+  --bg: #f3e7cf;
+  --surface: #fffaf0;
+  --line: #e6d3ab;
+  --muted: #6e5f47;
   --accent: #14244b;
   --accent-ink: #f6e7b9;
   --gold: #d4af37;
@@ -35,7 +38,7 @@ html[data-ramadan='on'] {
   --header-ink: #f6e7b9;
   --announce-bg: #d4af37;
   --announce-ink: #0f1b3d;
-  --media-bg: #efe6d3;
+  --media-bg: #f0e0bd;
 }
 
 html[lang='ar'] {
@@ -56,6 +59,7 @@ body {
 
 body {
   background: var(--bg);
+  transition: background-color 0.8s ease;
   color: var(--ink);
   font-family: var(--font-body);
   font-size: 1rem;
@@ -822,3 +826,17 @@ html[data-ramadan='on'] .footer__inner { position: relative; z-index: 1; }
 .variant-chip { min-width: 64px; padding: 8px 16px; font-size: 0.9rem; text-align: center; text-decoration: none; color: var(--ink); border-color: var(--line); background: var(--surface); }
 .variant-chip.chip--active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 .variant-chip--soldout { color: var(--muted); text-decoration: line-through; opacity: 0.7; }
+
+/* Ramadan page background: warm sand with a faint gold khatam (8-point star)
+   pattern and a soft glow at the top. */
+html[data-ramadan='on'] body {
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 50% -10%, rgb(212 175 55 / 0.22), transparent 55%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23b8892b' stroke-width='1' opacity='0.3'%3E%3Cpath d='M32 14l5.3 12.7L50 32l-12.7 5.3L32 50l-5.3-12.7L14 32l12.7-5.3z'/%3E%3Cpath d='M19.3 19.3h25.4v25.4H19.3z' transform='rotate(45 32 32)'/%3E%3Ccircle cx='0' cy='0' r='3'/%3E%3Ccircle cx='64' cy='0' r='3'/%3E%3Ccircle cx='0' cy='64' r='3'/%3E%3Ccircle cx='64' cy='64' r='3'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 100% 900px, 64px 64px;
+  background-repeat: no-repeat, repeat;
+  background-attachment: scroll, fixed;
+}
+html[data-ramadan='on'] .product-card__media,
+html[data-ramadan='on'] .product__media { border-radius: 6px; overflow: hidden; }
