@@ -24,7 +24,9 @@ export function HomeHero({image}: {image: {url: string; altText: string | null} 
       {image ? (
         <img
           className="home-hero__photo"
-          src={`${image.url}${image.url.includes('?') ? '&' : '?'}width=2000`}
+          src={sized(image.url, 1600)}
+          srcSet={[800, 1200, 1600, 2400].map((w) => `${sized(image.url, w)} ${w}w`).join(', ')}
+          sizes="100vw"
           alt={image.altText ?? ''}
           fetchPriority="high"
         />
@@ -58,6 +60,8 @@ export function HomeHero({image}: {image: {url: string; altText: string | null} 
     </section>
   );
 }
+
+const sized = (url: string, width: number) => `${url}${url.includes('?') ? '&' : '?'}width=${width}`;
 
 type BottleProps = {x: number; delay: number; liquid: [string, string]; shape: 'tall' | 'round' | 'octagon'; id: string};
 

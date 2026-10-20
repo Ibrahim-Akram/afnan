@@ -330,7 +330,10 @@ html[dir='rtl'] .home-hero__art svg { transform: scaleX(-1); }
   background: linear-gradient(90deg, rgb(20 13 8 / 0.92) 0%, rgb(20 13 8 / 0.6) 38%, transparent 62%);
 }
 html[dir='rtl'] .home-hero__shade { transform: scaleX(-1); }
-.home-hero--photo .home-hero__shade { background: linear-gradient(90deg, rgb(20 13 8 / 0.8), rgb(20 13 8 / 0.25) 60%, transparent); }
+/* Photo banner on wider screens: text on a dark panel, the photo beside it. */
+.home-hero--photo .home-hero__photo { inset-inline-start: auto; width: 60%; }
+.home-hero--photo .home-hero__shade { background: linear-gradient(90deg, #1a110a 40%, rgb(26 17 10 / 0.5) 46%, transparent 56%); }
+.home-hero--photo .home-hero__inner > * { max-width: 30rem; }
 .home-hero__inner { position: relative; z-index: 2; width: 100%; padding-block: 72px; }
 .home-hero__inner > * { max-width: 34rem; }
 .home-hero .eyebrow { color: #d4af37; }
@@ -340,7 +343,11 @@ html[dir='rtl'] .home-hero__shade { transform: scaleX(-1); }
   .home-hero { align-items: flex-end; min-height: 640px; }
   .home-hero__art { height: 58%; }
   .home-hero__shade { background: linear-gradient(0deg, #1a110a 0%, #1a110a 42%, rgb(26 17 10 / 0.4) 52%, transparent 62%); }
-  .home-hero--photo .home-hero__shade { background: linear-gradient(0deg, rgb(20 13 8 / 0.92) 0%, rgb(20 13 8 / 0.6) 45%, transparent 70%); }
+  /* Photo banner on phones: the whole picture on top, the text below it. */
+  .home-hero--photo { display: block; min-height: 0; padding: 0; }
+  .home-hero--photo .home-hero__photo { position: static; display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; }
+  .home-hero--photo .home-hero__shade { display: none; }
+  .home-hero--photo .home-hero__inner { padding-block: 28px 40px; }
   html[dir='rtl'] .home-hero__shade { transform: none; }
   .home-hero__inner { padding-block: 300px 40px; }
 }
