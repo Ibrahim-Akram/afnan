@@ -24,7 +24,7 @@ export function Footer() {
           <p className="muted">{t('footer.about')}</p>
         </div>
         <nav aria-label={t('footer.help')} className="footer__links">
-          <Link to={path('/pages/ramadan-gifts')}>{t('nav.ramadan')}</Link>
+          {on && <Link to={path('/pages/ramadan-gifts')}>{t('nav.ramadan')}</Link>}
           <Link to={path('/gift-box')}>{t('nav.buildBox')}</Link>
           <Link to={path('/loyalty')}>{t('nav.loyalty')}</Link>
           <Link to={path('/collections')}>{t('collections.title')}</Link>
