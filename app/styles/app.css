@@ -339,11 +339,13 @@ html[lang='ar'] .eyebrow { letter-spacing: 0; text-transform: none; font-size: 0
 .gifting-hero .lead,
 .loyalty-hero .lead { color: #e9dcb6; }
 /* Animated Ramadan scene (framer-motion drives the movement). */
-.ramadan-banner--animated { min-height: 460px; display: flex; align-items: center; }
+.ramadan-banner--animated { min-height: min(640px, 82vh); display: flex; align-items: center; }
+.gifting-hero--animated { min-height: min(620px, 82vh); display: flex; align-items: center; }
+.gifting-hero--animated .gifting-hero__inner { width: 100%; }
 .gifting-hero--animated .gifting-hero__inner { padding-bottom: 120px; z-index: 2; }
 .loyalty-hero { position: relative; }
 .loyalty-hero__inner { position: relative; z-index: 2; }
-.ramadan-banner--animated .ramadan-banner__inner { padding-block: 72px 120px; z-index: 2; }
+.ramadan-banner--animated .ramadan-banner__inner { padding-block: 96px 150px; z-index: 2; width: 100%; }
 .ramadan-banner__title { font-size: clamp(2rem, 4.5vw, 3.4rem); text-shadow: 0 0 24px rgb(212 175 55 / 0.35); }
 .twinkling-stars { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
 .twinkling-stars span { position: absolute; border-radius: 50%; background: #f6e7b9; box-shadow: 0 0 6px rgb(246 231 185 / 0.8); }
@@ -361,7 +363,7 @@ html[lang='ar'] .eyebrow { letter-spacing: 0; text-transform: none; font-size: 0
   background: radial-gradient(circle, rgb(243 210 122 / 0.35), transparent 65%);
 }
 html[dir='rtl'] .glowing-crescent svg { transform: scaleX(-1); }
-.mosque-skyline { position: absolute; inset-inline: 0; bottom: 0; width: 100%; height: 110px; z-index: 1; pointer-events: none; }
+.mosque-skyline { position: absolute; inset-inline: 0; bottom: 0; width: 100%; height: 140px; z-index: 1; pointer-events: none; }
 .rising-sparkles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; }
 .rising-sparkles span {
   position: absolute;
