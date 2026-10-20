@@ -111,6 +111,8 @@ const en = {
   'product.soldOut': 'Sold out',
   'product.sale': 'Sale',
   'product.vendor': 'Afnan',
+  'product.chooseOptions': 'Choose options',
+  'product.unavailableCombo': 'This combination is not available.',
   'product.notFound': 'We could not find that product.',
   'product.gwpPromo':
     'Buy any Femme Collection perfume and get a free gift with your order.',
@@ -292,11 +294,11 @@ const en = {
   'account.status.FULFILLED': 'Delivered',
   'account.status.UNFULFILLED': 'Preparing',
 
-  'footer.about': 'Afnan Perfumes. Dummy storefront built with Shopify Hydrogen.',
+  'footer.about': 'Afnan Perfumes. Fragrances of the East, made in the UAE.',
   'footer.help': 'Help',
   'footer.shipping': 'Delivery & returns',
   'footer.contact': 'Contact us',
-  'footer.ramadanSwitch': 'Ramadan look (demo switch)',
+  'footer.ramadanSwitch': 'Ramadan mode (switch)',
   'footer.on': 'On',
   'footer.off': 'Off',
 
@@ -350,6 +352,8 @@ const ar: Record<MessageKey, string> = {
   'product.soldOut': 'نفدت الكمية',
   'product.sale': 'تخفيض',
   'product.vendor': 'أفنان',
+  'product.chooseOptions': 'اختر الخيارات',
+  'product.unavailableCombo': 'هذا الخيار غير متوفر.',
   'product.notFound': 'لم نعثر على هذا المنتج.',
   'product.gwpPromo': 'اشترِ أي عطر من مجموعة فام واحصل على هدية مجانية مع طلبك.',
 
@@ -527,11 +531,11 @@ const ar: Record<MessageKey, string> = {
   'account.status.FULFILLED': 'تم التوصيل',
   'account.status.UNFULFILLED': 'قيد التجهيز',
 
-  'footer.about': 'عطور أفنان. متجر تجريبي مبني باستخدام Shopify Hydrogen.',
+  'footer.about': 'عطور أفنان. عطور الشرق، صُنعت في الإمارات.',
   'footer.help': 'المساعدة',
   'footer.shipping': 'التوصيل والإرجاع',
   'footer.contact': 'تواصل معنا',
-  'footer.ramadanSwitch': 'مظهر رمضان (مفتاح تجريبي)',
+  'footer.ramadanSwitch': 'وضع رمضان (مفتاح)',
   'footer.on': 'تشغيل',
   'footer.off': 'إيقاف',
 

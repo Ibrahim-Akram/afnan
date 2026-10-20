@@ -106,6 +106,9 @@ function CartLineItem({line}: {line: CartLine}) {
             {line.merchandise.product.title}
           </Link>
         )}
+        {line.merchandise.title !== 'Default Title' && (
+          <p className="muted small cart-line__variant">{line.merchandise.title}</p>
+        )}
         {wrap && <p className="muted small">{t('cart.giftWrapLine')}</p>}
         {box && (
           <div className="cart-line__box">

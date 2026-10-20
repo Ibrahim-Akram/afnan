@@ -29,10 +29,7 @@ export function Footer() {
           <Link to={path('/loyalty')}>{t('nav.loyalty')}</Link>
           <Link to={path('/collections')}>{t('collections.title')}</Link>
         </nav>
-        {/*
-          Preview switch for reviewers. The real merchandiser switch is the
-          afnan_settings metaobject in Shopify admin (see docs/SHOPIFY_SETUP.md).
-        */}
+        {/* The merchandiser switch is the afnan_settings metaobject in Shopify admin; this toggles it for the current visitor. */}
         <div className="ramadan-switch" role="group" aria-label={t('footer.ramadanSwitch')}>
           <span>{t('footer.ramadanSwitch')}</span>
           <Link

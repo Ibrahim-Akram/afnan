@@ -23,7 +23,12 @@ export type Variant = {
   availableForSale: boolean;
   price: Money;
   compareAtPrice?: Money | null;
+  /** e.g. [{name: 'Volume', value: '100ml'}]; empty for single-variant products. */
+  selectedOptions?: {name: string; value: string}[];
+  image?: Image | null;
 };
+
+export type ProductOption = {name: string; values: string[]};
 
 export type Product = {
   id: string;
@@ -37,6 +42,8 @@ export type Product = {
   image: Image | null;
   art?: BottleArt;
   variants: Variant[];
+  /** Real options only; Shopify's placeholder "Title / Default Title" is dropped. */
+  options?: ProductOption[];
   /** Lowest variant price; used for budget filters and cards. */
   price: Money;
   compareAtPrice?: Money | null;

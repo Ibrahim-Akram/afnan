@@ -1,4 +1,4 @@
-import {useLoaderData, useRouteLoaderData} from 'react-router';
+import {Link, useLoaderData, useRouteLoaderData, useSearchParams} from 'react-router';
 import type {Route} from './+types/($locale).products.$handle';
 import {assertLocaleParam, useLocale} from '~/lib/i18n';
 import {ProductMedia} from '~/components/ProductMedia';
@@ -25,7 +25,36 @@ export async function loader({params, context}: Route.LoaderArgs) {
 export default function ProductPage() {
   const {product} = useLoaderData<typeof loader>();
   const {t} = useLocale();
-  const variant = product.variants.find((v) => v.availableForSale) ?? product.variants[0];
+  const [params] = useSearchParams();
+  const options = product.options ?? [];
+  const fallback = product.variants.find((v) => v.availableForSale) ?? product.variants[0];
+
+  // Selected options live in the URL (?Volume=100ml), like Shopify themes,
+  // so a size can be linked to and survives a refresh.
+  const selected = Object.fromEntries(
+    options.map((o) => {
+      const fromUrl = params.get(o.name);
+      const value =
+        fromUrl && o.values.includes(fromUrl)
+          ? fromUrl
+          : fallback?.selectedOptions?.find((so) => so.name === o.name)?.value ?? o.values[0];
+      return [o.name, value];
+    }),
+  );
+  const matches = (v: (typeof product.variants)[number], picks: Record<string, string>) =>
+    Object.entries(picks).every(([name, value]) =>
+      v.selectedOptions?.some((so) => so.name === name && so.value === value),
+    );
+  const variant = options.length
+    ? product.variants.find((v) => matches(v, selected))
+    : fallback;
+  const valueAvailable = (name: string, value: string) =>
+    product.variants.some((v) => v.availableForSale && matches(v, {...selected, [name]: value}));
+  const linkFor = (name: string, value: string) => {
+    const next = new URLSearchParams(params);
+    next.set(name, value);
+    return `?${next.toString()}`;
+  };
   const offer = useRouteLoaderData<RootLoader>('root')?.giftOffer;
   const qualifies = Boolean(offer && product.collections.includes(offer.buyCollection));
 
@@ -33,7 +62,8 @@ export default function ProductPage() {
     <div className="container page product">
       <div className="product__media">
         <ProductMedia
-          image={product.image}
+          key={variant?.id}
+          image={variant?.image ?? product.image}
           art={product.art}
           title={product.title}
           sizes="(min-width: 48em) 50vw, 100vw"
@@ -47,9 +77,39 @@ export default function ProductPage() {
           compareAtPrice={variant?.compareAtPrice}
           className="price price--large"
         />
+        {options.map((option) => (
+          <fieldset key={option.name} className="variant-picker">
+            <legend className="variant-picker__label">
+              {option.name}: <strong>{selected[option.name]}</strong>
+            </legend>
+            <div className="variant-picker__values">
+              {option.values.map((value) => {
+                const active = selected[option.name] === value;
+                const available = valueAvailable(option.name, value);
+                return (
+                  <Link
+                    key={value}
+                    to={linkFor(option.name, value)}
+                    replace
+                    preventScrollReset
+                    className={`chip variant-chip${active ? ' chip--active' : ''}${available ? '' : ' variant-chip--soldout'}`}
+                    aria-current={active ? 'true' : undefined}
+                    aria-label={available ? value : `${value} (${t('product.soldOut')})`}
+                  >
+                    {value}
+                  </Link>
+                );
+              })}
+            </div>
+          </fieldset>
+        ))}
         <p className="product__description">{product.description}</p>
         <FreeGiftNotice promo={qualifies} />
-        {variant && <AddToBag variantId={variant.id} available={variant.availableForSale} />}
+        {variant ? (
+          <AddToBag variantId={variant.id} available={variant.availableForSale} />
+        ) : (
+          <p className="muted">{t('product.unavailableCombo')}</p>
+        )}
       </div>
     </div>
   );
