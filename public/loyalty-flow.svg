@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800" font-family="Inter, Helvetica, Arial, sans-serif">
+  <title>Afnan Rewards customer journey</title>
+  <desc>Sign up, earn points from purchases, reviews, birthdays and referrals, move between Silver, Gold and Platinum tiers, and redeem points at checkout.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 10 5 0 10z" fill="#14244b"/>
+    </marker>
+    <style>
+      .box { fill: #ffffff; stroke: #14244b; stroke-width: 2; }
+      .step { fill: #14244b; }
+      .gold { fill: #f6e7b9; stroke: #b48a2c; stroke-width: 2; }
+      .silver { fill: #eceff2; stroke: #7c8799; stroke-width: 2; }
+      .plat { fill: #dfe3ea; stroke: #3b4352; stroke-width: 2; }
+      .decision { fill: #fff8e6; stroke: #b48a2c; stroke-width: 2; }
+      .line { stroke: #14244b; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .join { stroke: #14244b; stroke-width: 2; fill: none; }
+      .dash { stroke: #8a6a3b; stroke-width: 2; fill: none; stroke-dasharray: 6 6; marker-end: url(#arrow); }
+      .h { font-size: 18px; font-weight: 700; fill: #14244b; }
+      .t { font-size: 14px; fill: #1d1b19; }
+      .s { font-size: 12px; fill: #6f675d; }
+      .w { font-size: 13px; font-weight: 700; fill: #f6e7b9; letter-spacing: 1px; }
+      .title { font-family: Georgia, serif; font-size: 30px; fill: #14244b; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="800" fill="#faf7f2"/>
+  <text x="40" y="56" class="title">Afnan Rewards: customer journey</text>
+  <text x="40" y="82" class="s">Theme shows the programme and balances. The loyalty app owns the points ledger, tier rules and checkout redemption.</text>
+
+  <!-- 1 Sign up -->
+  <rect x="40" y="120" width="240" height="44" rx="6" class="step"/>
+  <text x="56" y="148" class="w">1  SIGN UP</text>
+  <rect x="40" y="164" width="240" height="150" rx="6" class="box"/>
+  <text x="56" y="194" class="h">Create account</text>
+  <text x="56" y="220" class="t">From the loyalty page, a</text>
+  <text x="56" y="240" class="t">checkout opt-in or a referral link</text>
+  <text x="56" y="272" class="t">+100 welcome points</text>
+  <text x="56" y="294" class="s">Starts at Silver</text>
+
+  <!-- 2 Earn -->
+  <rect x="340" y="120" width="300" height="44" rx="6" class="step"/>
+  <text x="356" y="148" class="w">2  EARN POINTS</text>
+  <rect x="340" y="164" width="300" height="56" rx="6" class="box"/>
+  <text x="356" y="188" class="h">Purchase</text>
+  <text x="356" y="208" class="t">1 pt per AED 1 × tier multiplier</text>
+  <rect x="340" y="230" width="300" height="56" rx="6" class="box"/>
+  <text x="356" y="254" class="h">Product review</text>
+  <text x="356" y="274" class="t">50 pts per approved review</text>
+  <rect x="340" y="296" width="300" height="56" rx="6" class="box"/>
+  <text x="356" y="320" class="h">Birthday</text>
+  <text x="356" y="340" class="t">200 pts in birthday month</text>
+  <rect x="340" y="362" width="300" height="56" rx="6" class="box"/>
+  <text x="356" y="386" class="h">Referral</text>
+  <text x="356" y="406" class="t">250 pts when a friend orders</text>
+
+  <!-- Balance -->
+  <rect x="700" y="120" width="220" height="44" rx="6" class="step"/>
+  <text x="716" y="148" class="w">POINTS BALANCE</text>
+  <rect x="700" y="164" width="220" height="120" rx="6" class="box"/>
+  <text x="716" y="194" class="h">Ledger updated</text>
+  <text x="716" y="220" class="t">Shown in the account</text>
+  <text x="716" y="240" class="t">widget with progress to</text>
+  <text x="716" y="260" class="t">the next tier</text>
+
+  <!-- Tier decision -->
+  <polygon points="810,320 900,380 810,440 720,380" class="decision"/>
+  <text x="810" y="376" text-anchor="middle" class="t">Points in last</text>
+  <text x="810" y="394" text-anchor="middle" class="t">12 months?</text>
+
+  <!-- 3 Tiers -->
+  <rect x="960" y="120" width="200" height="44" rx="6" class="step"/>
+  <text x="976" y="148" class="w">3  MOVE BETWEEN TIERS</text>
+  <rect x="960" y="190" width="200" height="80" rx="6" class="silver"/>
+  <text x="976" y="218" class="h">Silver</text>
+  <text x="976" y="240" class="t">0–999 pts · 1×</text>
+  <text x="976" y="258" class="s">Birthday gift</text>
+  <rect x="960" y="300" width="200" height="80" rx="6" class="gold"/>
+  <text x="976" y="328" class="h">Gold</text>
+  <text x="976" y="350" class="t">1,000–2,499 pts · 1.25×</text>
+  <text x="976" y="368" class="s">+ free express, samples</text>
+  <rect x="960" y="410" width="200" height="80" rx="6" class="plat"/>
+  <text x="976" y="438" class="h">Platinum</text>
+  <text x="976" y="460" class="t">2,500+ pts · 1.5×</text>
+  <text x="976" y="478" class="s">+ early access to launches</text>
+  <text x="960" y="516" class="s">Upgrade instantly; reviewed yearly,</text>
+  <text x="960" y="532" class="s">drop one tier if below threshold.</text>
+
+  <!-- 4 Redeem -->
+  <rect x="340" y="500" width="580" height="44" rx="6" class="step"/>
+  <text x="356" y="528" class="w">4  REDEEM AT CHECKOUT</text>
+  <rect x="340" y="544" width="180" height="110" rx="6" class="box"/>
+  <text x="356" y="574" class="h">Add to bag</text>
+  <text x="356" y="598" class="t">Bag shows points</text>
+  <text x="356" y="618" class="t">available to spend</text>
+  <rect x="540" y="544" width="180" height="110" rx="6" class="box"/>
+  <text x="556" y="574" class="h">Choose reward</text>
+  <text x="556" y="598" class="t">100 pts = AED 10 off</text>
+  <text x="556" y="618" class="t">App issues a one-time</text>
+  <text x="556" y="638" class="t">discount code</text>
+  <rect x="740" y="544" width="180" height="110" rx="6" class="box"/>
+  <text x="756" y="574" class="h">Order placed</text>
+  <text x="756" y="598" class="t">Points deducted;</text>
+  <text x="756" y="618" class="t">new points earned</text>
+  <text x="756" y="638" class="t">on amount paid</text>
+
+  <!-- Arrows -->
+  <path d="M280 240 H335" class="line"/>
+  <path d="M640 192 H670 V224 H695" class="line"/>
+  <path d="M640 258 H670 M640 324 H670 M640 390 H670 V192" class="join"/>
+  <path d="M810 284 V315" class="line"/>
+  <path d="M900 380 H930 V230 H955" class="line"/>
+  <path d="M930 340 H955" class="line"/>
+  <path d="M930 380 V450 H955" class="line"/>
+  <path d="M810 440 V495" class="line"/>
+  <path d="M520 599 H535" class="line"/>
+  <path d="M720 599 H735" class="line"/>
+  <path d="M830 654 V700 H305 V324 H335" class="dash"/>
+  <text x="320" y="690" class="s">Every completed order earns again (back to Earn)</text>
+
+  <!-- Legend -->
+  <rect x="40" y="740" width="16" height="16" class="step"/>
+  <text x="64" y="753" class="s">Journey stage</text>
+  <rect x="180" y="740" width="16" height="16" class="decision"/>
+  <text x="204" y="753" class="s">Decision made by the loyalty app</text>
+  <line x1="440" y1="748" x2="480" y2="748" class="dash"/>
+  <text x="490" y="753" class="s">Repeat loop</text>
+</svg>
