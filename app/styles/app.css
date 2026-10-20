@@ -709,3 +709,15 @@ html[data-ramadan='on'] .footer { background: #0f1b3d; color: #e9dcb6; }
   .account-orders__row { grid-template-columns: 1fr auto; }
   .account-orders__items { grid-column: 1 / -1; }
 }
+.account-profile { display: grid; gap: 0; margin: 0 0 24px; max-width: 40rem; }
+.account-profile > div {
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  gap: 1rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.account-profile dt { color: var(--muted, #6b6359); font-size: 0.9rem; }
+.account-profile dd { margin: 0; }
+@media (max-width: 640px) { .account-profile > div { grid-template-columns: 1fr; gap: 0.25rem; } }
+.account-panel { padding-top: 8px; }

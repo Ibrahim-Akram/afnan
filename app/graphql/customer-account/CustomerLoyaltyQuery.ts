@@ -6,6 +6,8 @@ export const CUSTOMER_LOYALTY_QUERY = `#graphql
       lastName
       creationDate
       emailAddress { emailAddress }
+      phoneNumber { phoneNumber }
+      defaultAddress { formatted }
       points: metafield(namespace: "loyalty", key: "points") { value }
       orders(first: 50, sortKey: PROCESSED_AT, reverse: true) {
         nodes {
