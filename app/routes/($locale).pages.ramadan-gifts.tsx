@@ -6,7 +6,8 @@ import {titleFor} from '~/lib/meta';
 import {BUDGETS, STORE, type BudgetId} from '~/lib/store-config';
 import {Countdown} from '~/components/Countdown';
 import {ProductGrid} from '~/components/ProductCard';
-import {Crescent, Lantern} from '~/components/Icons';
+import {Crescent} from '~/components/Icons';
+import {RamadanScene} from '~/components/ramadan/RamadanScene';
 
 export const meta: Route.MetaFunction = ({matches}) => titleFor(matches, 'gifting.metaTitle');
 
@@ -33,9 +34,8 @@ export default function RamadanGifts() {
 
   return (
     <div className="gifting">
-      <section className="gifting-hero" aria-labelledby="gifting-title">
-        <Lantern className="ramadan-banner__lantern ramadan-banner__lantern--a" />
-        <Lantern className="ramadan-banner__lantern ramadan-banner__lantern--b" />
+      <section className="gifting-hero gifting-hero--animated" aria-labelledby="gifting-title">
+        <RamadanScene seed={17} />
         <div className="container gifting-hero__inner">
           <p className="eyebrow">
             <Crescent /> {t('gifting.eyebrow')}

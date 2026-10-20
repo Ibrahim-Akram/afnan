@@ -2,11 +2,7 @@ import {Link} from 'react-router';
 import {motion, type Variants} from 'framer-motion';
 import {useLocale} from '~/lib/i18n';
 import {Crescent} from './Icons';
-import {TwinklingStars} from './ramadan/Stars';
-import {SwingingLantern} from './ramadan/SwingingLantern';
-import {GlowingCrescent} from './ramadan/Crescent';
-import {MosqueSkyline} from './ramadan/Skyline';
-import {RisingSparkles} from './ramadan/Sparkles';
+import {RamadanScene} from './ramadan/RamadanScene';
 
 const container: Variants = {
   hidden: {},
@@ -22,13 +18,7 @@ export function RamadanBanner() {
   const {t, path} = useLocale();
   return (
     <section className="ramadan-banner ramadan-banner--animated" aria-labelledby="ramadan-banner-title">
-      <TwinklingStars count={40} seed={11} />
-      <GlowingCrescent className="ramadan-banner__moon" delay={0.2} />
-      <SwingingLantern className="ramadan-banner__lantern ramadan-banner__lantern--a" delay={0.1} />
-      <SwingingLantern className="ramadan-banner__lantern ramadan-banner__lantern--b" delay={0.5} size={0.7} />
-      <SwingingLantern className="ramadan-banner__lantern ramadan-banner__lantern--c" delay={0.9} size={0.55} />
-      <RisingSparkles />
-      <MosqueSkyline />
+      <RamadanScene />
       <motion.div className="container ramadan-banner__inner" variants={container} initial="hidden" animate="show">
         <motion.p className="eyebrow" variants={item}>
           <Crescent /> {t('banner.eyebrow')}

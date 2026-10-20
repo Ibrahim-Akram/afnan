@@ -340,15 +340,18 @@ html[lang='ar'] .eyebrow { letter-spacing: 0; text-transform: none; font-size: 0
 .loyalty-hero .lead { color: #e9dcb6; }
 /* Animated Ramadan scene (framer-motion drives the movement). */
 .ramadan-banner--animated { min-height: 460px; display: flex; align-items: center; }
+.gifting-hero--animated .gifting-hero__inner { padding-bottom: 120px; z-index: 2; }
+.loyalty-hero { position: relative; }
+.loyalty-hero__inner { position: relative; z-index: 2; }
 .ramadan-banner--animated .ramadan-banner__inner { padding-block: 72px 120px; z-index: 2; }
 .ramadan-banner__title { font-size: clamp(2rem, 4.5vw, 3.4rem); text-shadow: 0 0 24px rgb(212 175 55 / 0.35); }
 .twinkling-stars { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
 .twinkling-stars span { position: absolute; border-radius: 50%; background: #f6e7b9; box-shadow: 0 0 6px rgb(246 231 185 / 0.8); }
-.ramadan-banner__lantern { position: absolute; top: 0; z-index: 1; pointer-events: none; }
-.ramadan-banner__lantern--a { inset-inline-end: 14%; }
-.ramadan-banner__lantern--b { inset-inline-end: 6%; }
-.ramadan-banner__lantern--c { inset-inline-end: 24%; opacity: 0.8; }
-.glowing-crescent.ramadan-banner__moon { position: absolute; top: 22px; inset-inline-end: 29%; width: 100px; height: 100px; z-index: 0; }
+.ramadan-scene__lantern { position: absolute; top: 0; z-index: 1; pointer-events: none; }
+.ramadan-scene__lantern--a { inset-inline-end: 14%; }
+.ramadan-scene__lantern--b { inset-inline-end: 6%; }
+.ramadan-scene__lantern--c { inset-inline-end: 24%; opacity: 0.8; }
+.glowing-crescent.ramadan-scene__moon { position: absolute; top: 22px; inset-inline-end: 29%; width: 100px; height: 100px; z-index: 0; }
 .glowing-crescent { position: relative; pointer-events: none; }
 .glowing-crescent svg { position: relative; filter: drop-shadow(0 0 18px rgb(243 210 122 / 0.6)); }
 .glowing-crescent__halo {
@@ -378,9 +381,9 @@ html[dir='rtl'] .glowing-crescent svg { transform: scaleX(-1); }
 }
 @keyframes afnan-shine { 60%, 100% { transform: translateX(120%); } }
 @media (max-width: 40em) {
-  .ramadan-banner__lantern--b, .ramadan-banner__lantern--c { display: none; }
-  .ramadan-banner__lantern--a { inset-inline-end: 4%; opacity: 0.6; }
-  .glowing-crescent.ramadan-banner__moon { width: 80px; height: 80px; top: 24px; inset-inline-end: 22%; opacity: 0.7; }
+  .ramadan-scene__lantern--b, .ramadan-scene__lantern--c { display: none; }
+  .ramadan-scene__lantern--a { inset-inline-end: 4%; opacity: 0.6; }
+  .glowing-crescent.ramadan-scene__moon { width: 56px; height: 56px; top: 12px; inset-inline-end: 24%; opacity: 0.55; }
 }
 
 /* Switch moment: full-screen night sky when Ramadan mode turns on. */
@@ -414,22 +417,12 @@ html[data-ramadan='on'] .header { position: relative; overflow: hidden; }
 html[data-ramadan='on'] .header__inner { position: relative; z-index: 1; }
 .logo__crescent-wrap { display: inline-flex; }
 .announcement__icon-wrap { display: inline-flex; }
-.announcement__shimmer {
-  background: linear-gradient(90deg, var(--announce-ink) 40%, #fff6d6 50%, var(--announce-ink) 60%);
-  background-size: 250% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: afnan-text-shimmer 4s linear infinite;
-}
-@keyframes afnan-text-shimmer { from { background-position: 100% 0; } to { background-position: -150% 0; } }
 .product-grid__cell { display: flex; }
 .product-grid__cell > * { flex: 1; }
 html[data-ramadan='on'] .product-card { transition: box-shadow 0.3s; }
 html[data-ramadan='on'] .product-grid__cell:hover .product-card { box-shadow: 0 10px 30px -12px rgb(212 175 55 / 0.55); }
 @media (prefers-reduced-motion: reduce) {
-  .button--shine::after, .announcement__shimmer { animation: none; }
-  .announcement__shimmer { color: var(--announce-ink); background: none; }
+  .button--shine::after { animation: none; }
 }
 .loyalty-hero { padding-block: 56px; }
 .loyalty-hero h1 { max-width: 40rem; }
@@ -802,3 +795,19 @@ html[data-ramadan='on'] .footer { background: #0f1b3d; color: #e9dcb6; }
 .account-profile dd { margin: 0; }
 @media (max-width: 640px) { .account-profile > div { grid-template-columns: 1fr; gap: 0.25rem; } }
 .account-panel { padding-top: 8px; }
+
+/* Ramadan garland on pages without their own hero. */
+.ramadan-garland { position: relative; height: 64px; overflow: hidden; pointer-events: none; }
+.ramadan-garland__string { position: absolute; inset-inline: 0; top: 0; width: 100%; height: 28px; }
+.ramadan-garland__charm { position: absolute; top: 12px; display: flex; flex-direction: column; align-items: center; translate: -50% 0; }
+.ramadan-garland__thread { width: 1px; height: 10px; background: #d4af37; }
+.ramadan-garland__charm--lantern svg { filter: drop-shadow(0 0 6px rgb(242 184 75 / 0.7)); }
+.ramadan-garland__twinkle { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #d4af37; box-shadow: 0 0 6px #f3d27a; }
+html[dir='rtl'] .ramadan-garland__charm { translate: 50% 0; }
+@media (max-width: 40em) { .ramadan-garland__charm:nth-child(even) { display: none; } }
+
+/* Ramadan footer: the skyline rises out of the footer into the page. */
+html[data-ramadan='on'] .footer { position: relative; margin-top: 140px; }
+html[data-ramadan='on'] .footer__inner { position: relative; z-index: 1; }
+.mosque-skyline.footer__skyline { top: auto; bottom: calc(100% - 1px); height: 90px; }
+.footer__skyline path { fill: #0f1b3d; }

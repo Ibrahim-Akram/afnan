@@ -4,6 +4,7 @@ import type {RootLoader} from '~/root';
 import {assertLocaleParam, useLocale, type MessageKey} from '~/lib/i18n';
 import {titleFor} from '~/lib/meta';
 import {TIERS} from '~/lib/loyalty';
+import {RamadanScene} from '~/components/ramadan/RamadanScene';
 
 export const meta: Route.MetaFunction = ({matches}) => titleFor(matches, 'loyalty.metaTitle');
 
@@ -18,6 +19,7 @@ const EARN = ['purchase', 'review', 'birthday', 'referral'] as const;
 export default function Loyalty() {
   const root = useRouteLoaderData<RootLoader>('root');
   const {t, path} = useLocale();
+  const ramadan = Boolean(root?.ramadan.enabled);
   // Mock mode has no sign-up, so the button goes straight to the demo account.
   const joinTo = root?.mode === 'shopify' ? '/account/login' : path('/account');
 
@@ -30,7 +32,8 @@ export default function Loyalty() {
   return (
     <div className="loyalty">
       <section className="loyalty-hero">
-        <div className="container">
+        {ramadan && <RamadanScene seed={29} lanterns={2} skyline={false} />}
+        <div className="container loyalty-hero__inner">
           <p className="eyebrow">{t('loyalty.eyebrow')}</p>
           <h1>{t('loyalty.title')}</h1>
           <p className="lead">{t('loyalty.text')}</p>

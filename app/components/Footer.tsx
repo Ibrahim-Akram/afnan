@@ -1,5 +1,7 @@
 import {Link, useLocation, useRouteLoaderData} from 'react-router';
 import type {RootLoader} from '~/root';
+import {TwinklingStars} from './ramadan/Stars';
+import {MosqueSkyline} from './ramadan/Skyline';
 import {useLocale} from '~/lib/i18n';
 
 export function Footer() {
@@ -10,6 +12,12 @@ export function Footer() {
 
   return (
     <footer className="footer">
+      {on && (
+        <>
+          <MosqueSkyline className="footer__skyline" />
+          <TwinklingStars count={30} seed={53} />
+        </>
+      )}
       <div className="container footer__inner">
         <div>
           <p className="footer__logo">AFNAN</p>

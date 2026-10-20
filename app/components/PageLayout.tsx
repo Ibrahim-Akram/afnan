@@ -5,6 +5,10 @@ import {AnnouncementBar} from './AnnouncementBar';
 import {Header} from './Header';
 import {Footer} from './Footer';
 import {RamadanReveal} from './ramadan/RamadanReveal';
+import {RamadanGarland} from './ramadan/RamadanGarland';
+
+/** Pages with their own animated Ramadan hero don't need the garland. */
+const HAS_RAMADAN_HERO = /^(\/ar)?(\/|\/pages\/ramadan-gifts|\/loyalty)?$/;
 
 export function PageLayout({children}: {children?: React.ReactNode}) {
   const data = useRouteLoaderData<RootLoader>('root');
@@ -27,6 +31,7 @@ export function PageLayout({children}: {children?: React.ReactNode}) {
           animate={{opacity: 1, y: 0}}
           transition={{duration: 0.5, ease: 'easeOut'}}
         >
+          {!HAS_RAMADAN_HERO.test(pathname.replace(/\/$/, '')) && <RamadanGarland />}
           {children}
         </motion.main>
       ) : (

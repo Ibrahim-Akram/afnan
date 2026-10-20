@@ -20,9 +20,14 @@ export function AnnouncementBar() {
           <Crescent className="announcement__icon" />
         </motion.span>
       )}
-      <span className={ramadan ? 'announcement__shimmer' : undefined}>
+      <motion.span
+        key={ramadan ? 'ramadan' : 'default'}
+        initial={ramadan ? {opacity: 0, y: -8} : false}
+        animate={{opacity: 1, y: 0}}
+        transition={{duration: 0.6, ease: 'easeOut'}}
+      >
         {t(ramadan ? 'announcement.ramadan' : 'announcement.default')}
-      </span>
+      </motion.span>
     </div>
   );
 }
