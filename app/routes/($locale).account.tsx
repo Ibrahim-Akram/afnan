@@ -1,4 +1,4 @@
-import {Form, Link, useLoaderData, useSearchParams} from 'react-router';
+import {Form, Link, redirect, useLoaderData, useSearchParams} from 'react-router';
 import type {Route} from './+types/($locale).account';
 import {assertLocaleParam, useLocale, type MessageKey} from '~/lib/i18n';
 import {titleFor} from '~/lib/meta';
@@ -23,8 +23,8 @@ type AccountOrder = {
  * With a store connected the customer signs in through the Customer
  * Account API and sees their own name and orders. Points come from the
  * loyalty.points metafield when the loyalty app syncs one, otherwise they
- * are worked out from the customer's orders. Without a store, a demo
- * customer is shown.
+ * are worked out from the customer's orders. Without a store (mock mode),
+ * a demo customer is shown.
  */
 export async function loader({params, context}: Route.LoaderArgs) {
   assertLocaleParam(params.locale);
@@ -45,10 +45,12 @@ export async function loader({params, context}: Route.LoaderArgs) {
   };
   if (commerce.mode === 'mock') return {...demo, canSignIn: false};
 
-  // Signed-out visitors (or a store without customer accounts set up) see
-  // the demo widget with a sign-in button instead of a forced redirect.
+  // Signed-out visitors go straight to Shopify's customer login, the same
+  // as the Online Store theme; Shopify sends them back here afterwards.
   const loggedIn = await customerAccount.isLoggedIn().catch(() => false);
-  if (!loggedIn) return demo;
+  if (!loggedIn) {
+    throw redirect(params.locale ? `/account/login?locale=${params.locale}` : '/account/login');
+  }
 
   const {data} = await customerAccount.query(CUSTOMER_LOYALTY_QUERY);
   const customer = data?.customer;
