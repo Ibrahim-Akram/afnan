@@ -309,18 +309,40 @@ html[lang='ar'] .eyebrow { letter-spacing: 0; text-transform: none; font-size: 0
   .header__nav { display: flex; gap: 22px; justify-content: center; flex-wrap: wrap; }
 }
 
-/* Hero + Ramadan banner */
-.hero { background: linear-gradient(180deg, #f3ece0, var(--bg)); }
-.hero__inner {
-  display: grid;
-  gap: 24px;
+/* Home hero + Ramadan banner */
+.home-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: min(620px, 84vh);
+  display: flex;
   align-items: center;
-  padding-block: 48px;
+  background: #1a110a;
+  color: #f6ead2;
 }
-.hero__art { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.hero__art svg { border-radius: var(--radius); }
-@media (min-width: 48em) {
-  .hero__inner { grid-template-columns: 1.1fr 1fr; padding-block: 72px; }
+.home-hero__art,
+.home-hero__photo,
+.home-hero__shade { position: absolute; inset: 0; width: 100%; height: 100%; }
+.home-hero__art svg { width: 100%; height: 100%; display: block; }
+.home-hero__photo { object-fit: cover; }
+html[dir='rtl'] .home-hero__art svg { transform: scaleX(-1); }
+.home-hero__shade {
+  pointer-events: none;
+  background: linear-gradient(90deg, rgb(20 13 8 / 0.92) 0%, rgb(20 13 8 / 0.6) 38%, transparent 62%);
+}
+html[dir='rtl'] .home-hero__shade { transform: scaleX(-1); }
+.home-hero--photo .home-hero__shade { background: linear-gradient(90deg, rgb(20 13 8 / 0.8), rgb(20 13 8 / 0.25) 60%, transparent); }
+.home-hero__inner { position: relative; z-index: 2; width: 100%; padding-block: 72px; }
+.home-hero__inner > * { max-width: 34rem; }
+.home-hero .eyebrow { color: #d4af37; }
+.home-hero__title { font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.05; color: #fff7e6; }
+.home-hero__text { font-size: 1.1rem; color: #e8d9bb; }
+@media (max-width: 47.99em) {
+  .home-hero { align-items: flex-end; min-height: 640px; }
+  .home-hero__art { height: 58%; }
+  .home-hero__shade { background: linear-gradient(0deg, #1a110a 0%, #1a110a 42%, rgb(26 17 10 / 0.4) 52%, transparent 62%); }
+  .home-hero--photo .home-hero__shade { background: linear-gradient(0deg, rgb(20 13 8 / 0.92) 0%, rgb(20 13 8 / 0.6) 45%, transparent 70%); }
+  html[dir='rtl'] .home-hero__shade { transform: none; }
+  .home-hero__inner { padding-block: 300px 40px; }
 }
 
 .ramadan-banner,

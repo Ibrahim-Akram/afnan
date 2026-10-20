@@ -4,7 +4,7 @@ import type {RootLoader} from '~/root';
 import {assertLocaleParam, useLocale} from '~/lib/i18n';
 import {ProductGrid} from '~/components/ProductCard';
 import {RamadanBanner} from '~/components/RamadanBanner';
-import {BottleArt} from '~/components/ProductMedia';
+import {HomeHero} from '~/components/HomeHero';
 
 export const meta: Route.MetaFunction = () => [
   {title: 'Afnan Perfumes | Eau de parfum from the UAE'},
@@ -35,27 +35,7 @@ export default function Home() {
       {root?.ramadan.enabled ? (
         <RamadanBanner />
       ) : (
-        <section className="hero">
-          <div className="container hero__inner">
-            <div>
-              <p className="eyebrow">{t('home.heroEyebrow')}</p>
-              <h1>{t('home.heroTitle')}</h1>
-              <p className="lead">{t('home.heroText')}</p>
-              <div className="button-row">
-                <Link className="button" to={path('/collections/femme-collection')}>
-                  {t('home.heroCta')}
-                </Link>
-                <Link className="button button--outline" to={path('/collections/homme')}>
-                  {t('home.heroCta2')}
-                </Link>
-              </div>
-            </div>
-            <div className="hero__art" aria-hidden="true">
-              <BottleArt art={{liquid: '#b23a5b', cap: '#d8c7a0', shape: 'tall'}} title="" />
-              <BottleArt art={{liquid: '#2b2d42', cap: '#d4a017', shape: 'round'}} title="" />
-            </div>
-          </div>
-        </section>
+        <HomeHero image={root?.ramadan.heroImage ?? null} />
       )}
 
       <section className="container section">

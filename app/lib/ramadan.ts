@@ -9,6 +9,8 @@ export type RamadanSettings = {
   eidDate: string;
   /** Where the on/off value came from, shown in the footer demo switch. */
   source: 'shopify' | 'env' | 'preview';
+  /** Optional home banner image (Afnan settings → Hero image). */
+  heroImage: {url: string; altText: string | null} | null;
 };
 
 /**
@@ -34,6 +36,7 @@ export async function getRamadanSettings({
   let enabled = parseBool(env.RAMADAN_MODE) ?? true;
   let eidDate = env.EID_DATE || DEFAULT_EID_DATE;
   let source: RamadanSettings['source'] = 'env';
+  let heroImage: RamadanSettings['heroImage'] = null;
 
   if (useShopify) {
     try {
@@ -46,6 +49,11 @@ export async function getRamadanSettings({
         source = 'shopify';
       }
       if (metaobject?.eidDate?.value) eidDate = metaobject.eidDate.value;
+      const image =
+        metaobject?.heroImage?.reference?.__typename === 'MediaImage'
+          ? metaobject.heroImage.reference.image
+          : null;
+      if (image?.url) heroImage = {url: image.url, altText: image.altText ?? null};
     } catch (error) {
       console.error('Could not read afnan_settings metaobject', error);
     }
@@ -61,7 +69,7 @@ export async function getRamadanSettings({
     source = 'preview';
   }
 
-  return {enabled, eidDate, source};
+  return {enabled, eidDate, source, heroImage};
 }
 
 function parseBool(value: string | null | undefined): boolean | null {
@@ -74,6 +82,12 @@ const RAMADAN_SETTINGS_QUERY = `#graphql
     metaobject(handle: {type: "afnan_settings", handle: "storefront"}) {
       ramadanMode: field(key: "ramadan_mode") { value }
       eidDate: field(key: "eid_date") { value }
+      heroImage: field(key: "hero_image") {
+        reference {
+          __typename
+          ... on MediaImage { image { url altText } }
+        }
+      }
     }
   }
 ` as const;
