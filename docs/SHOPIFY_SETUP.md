@@ -102,6 +102,20 @@ storefront code stays the same.
 Install one free loyalty app (for example Smile, Rivo or Joy on its free
 plan) and match its rules to the flow diagram (`public/loyalty-flow.svg`).
 
+**On the dev store:** *Love Loyalty Rewards & Points* (free plan) is installed
+with the flow's rules: 100 sign-up points, 1 point per AED spent, 50 per
+review, 200 on birthdays, 250 per referral, and 100 points = AED 10 off. A test
+order of AED 970 earned 970 points plus the 100 sign-up points (1,070 in the
+app). Limits of the free plan:
+
+- VIP tiers need a paid plan, so the app keeps everyone at Silver. The tier
+  rules live in `app/lib/loyalty.ts` for display only; on a paid plan the app
+  would own them.
+- The app keeps its ledger in its own database and writes nothing to the
+  customer in Shopify, so the account widget shows a dummy balance. With an
+  app that syncs a customer metafield (or a paid plan with an API), the
+  widget reads it from `loyalty.points` with no other change.
+
 **The theme (this storefront) owns presentation:**
 
 - The loyalty landing page: how it works, tier table, ways to earn, sign-up.
